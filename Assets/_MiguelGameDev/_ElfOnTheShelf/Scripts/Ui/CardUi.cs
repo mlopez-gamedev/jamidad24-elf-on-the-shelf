@@ -1,20 +1,38 @@
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
+
+using UnityEngine.EventSystems;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
-    public abstract class CardUi : MonoBehaviour
+    public abstract class CardUi : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
     {
+        [SerializeField] private Image _interactableBackground;
         [SerializeField] private Image _picture;
         [SerializeField] private Image _reversePicture;
+        [SerializeField] private Highlight _highlight;
         
+        private RectTransform _rectTransform;
+        private Canvas _canvas;
         private bool _flippedUp = false;
+        
+        private bool _canSelect;
+        private bool _isSelected;
+        public Card Card { get; private set; }
+        public bool IsFlippedUp => _flippedUp;
+
+        private void Awake()
+        {
+            _interactableBackground.raycastTarget = false;
+            _rectTransform = GetComponent<RectTransform>();
+            _canvas = _rectTransform.root.GetComponent<Canvas>();
+        }
+        
         protected void Setup(Card card)
         {
+            Card = card;
             _picture.sprite = card.Picture;
         }
 
@@ -58,6 +76,77 @@ namespace MiguelGameDev.ElfOnTheShelf
             {
                 _reversePicture.gameObject.SetActive(true);
             }
+        }
+        
+        public void EnableSelection()
+        {
+            _canSelect = true;
+            PlayHighlight();
+        }
+        
+        public void DisableSelection()
+        {
+            _canSelect = false;
+            StopHighlight();
+        }
+
+        public void PlayHighlight()
+        {
+            _interactableBackground.raycastTarget = true;
+            _highlight.Play();
+        }
+        
+        public void StopHighlight()
+        {
+            _interactableBackground.raycastTarget = false;
+            _highlight.Stop();
+        }
+
+        public void Drop(Transform parent, Vector3 scale, TweenCallback callback)
+        {
+            if (!_isSelected)
+            {
+                return;
+            }
+            _isSelected = false;
+            
+            transform.SetParent(parent, true);
+            transform.DOLocalMove(Vector3.zero, 0.1f).OnComplete(callback);
+            if (transform.localScale != scale)
+            {
+                transform.DOScale(scale, 0.1f);
+            }
+        }
+        
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (!_canSelect)
+            {
+                return;
+            }
+            
+            GameUi.Instance.SelectCard(this);
+            _isSelected = true;
+            StopHighlight();
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (!_isSelected)
+            {
+                return;
+            }
+            _isSelected = false;
+            GameUi.Instance.CancelCardSelection(this);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!_isSelected)
+            {
+                return;
+            }
+            _rectTransform.anchoredPosition += eventData.delta * _canvas.scaleFactor;
         }
     }
 }

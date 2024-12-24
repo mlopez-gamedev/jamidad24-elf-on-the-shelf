@@ -40,6 +40,8 @@ namespace MiguelGameDev.ElfOnTheShelf
                 }
             }
             
+            ChangeState(ETurnState.StartTurn);
+            
             
             // if there is no cards, you lose 
             // if draw no Action Card check _game.OnlyDrawActionCards
@@ -60,16 +62,30 @@ namespace MiguelGameDev.ElfOnTheShelf
                     return true;
                     
                 case ECardType.Goal:
-                    if (!_game.Player.TryGetFirstHideCardFromHand(((GoalCard)card).Suit.Id, out var actionCard))
+                    if (_game.OnlyDrawActionCards)
                     {
-                        await _gameUi.MoveCardToMagicalPortal(actionCard);
+                        await _gameUi.MoveCardToMagicalPortal(card);
                         return true;
                     }
-                        
+                    
+                    if (!_game.Player.TryGetFirstHideCardFromHand(((GoalCard)card).Suit.Id, out var actionCard))
+                    {
+                        await _gameUi.MoveCardToMagicalPortal(card);
+                        return true;
+                    }
+                    
+                    // TODO: Cache actionCard to highlight and use to pay
+                    
                     ChangeState(ETurnState.Goal);
                     return false;
                     
                 case ECardType.Bust:
+                    if (_game.OnlyDrawActionCards)
+                    {
+                        await _gameUi.MoveCardToMagicalPortal(card);
+                        return true;
+                    }
+                    
                     ChangeState(ETurnState.Busted);
                     return false;
             }

@@ -14,7 +14,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             _gameUi.SetEnableCardSelection(false);
             _gameUi.SetEnableDeck(false);
             _gameUi.SetHighlightRun(false);
-            _gameUi.SetHighlightDiscardPile(false);
+            _gameUi.SetEnableDropOnDiscardPilePanel(false);
             
             _gameUi.SetEnableGoals(true);
         }

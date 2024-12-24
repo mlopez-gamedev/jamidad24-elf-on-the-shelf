@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -14,6 +15,39 @@ namespace MiguelGameDev.ElfOnTheShelf
             Assert.IsTrue(IsEmpty);
             _currentCardUi = cardUi;
             cardUi.transform.SetParent(transform);
+
+            GameUi.Instance.OnSelectCard += OnSelectCard;
+        }
+
+        private void OnSelectCard(CardUi cardUi)
+        {
+            if (cardUi != _currentCardUi)
+            {
+                return;
+            }
+
+            GameUi.Instance.OnSelectCard -= OnSelectCard;
+            _currentCardUi = null;
+        }
+
+        public void PlayHighlight()
+        {
+            _currentCardUi?.PlayHighlight();
+        }
+        
+        public void StopHighlight()
+        {
+            _currentCardUi?.StopHighlight();
+        }
+
+        public void EnableCardSelection()
+        {
+            _currentCardUi.EnableSelection();
+        }
+        
+        public void DisableCardSelection()
+        {
+            _currentCardUi.DisableSelection();
         }
     }
 }

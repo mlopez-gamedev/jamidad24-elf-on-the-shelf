@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -24,6 +22,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         [ShowInInspector] private readonly List<Card> _magicalPortal = new List<Card>();
         [ShowInInspector] private readonly List<GoalCard> _completedGoalCards = new List<GoalCard>();
+        
         public bool OnlyDrawActionCards { get; set; }
 
         public Player(CardsCatalog cardsCatalog)

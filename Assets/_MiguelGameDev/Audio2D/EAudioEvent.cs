@@ -10,6 +10,14 @@
         WarningSfx,
         BackSfx,
         StartGameSfx,
-        SonarSfx
+        DrawSfx,
+        ShuffleSfx,
+        PlayActionSfx,
+        DiscardSfx,
+        MagicalPortalSfx,
+        SpellSfx,
+        BustedSfx,
+        PayBustSfx,
+        GoalSfx
     }
 }

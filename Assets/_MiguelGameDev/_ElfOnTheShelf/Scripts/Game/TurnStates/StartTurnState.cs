@@ -14,14 +14,22 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             _game.OnlyDrawActionCards = false;
             
-            _gameUi.EnableAndHighlightCardSelection(false);
-            _gameUi.SetHighlightRun(false);
-            _gameUi.SetHighlightDiscardPile(true);
+            _gameUi.SetEnableDropOnDiscardPilePanel(false);
+            _gameUi.SetEnableDropOnRunPanel(false);
+            _gameUi.EnableAndHighlightCardSelection(true);
+
+            _gameUi.OnSelectCard += OnSelectCard;
         }
         
-        private void OnSelectCard()
+        private void OnSelectCard(CardUi cardUi)
         {
             ChangeState(ETurnState.CardSelected);
+        }
+
+        internal override void Stop()
+        {
+            base.Stop();
+            _gameUi.OnSelectCard -= OnSelectCard;
         }
     }
 }

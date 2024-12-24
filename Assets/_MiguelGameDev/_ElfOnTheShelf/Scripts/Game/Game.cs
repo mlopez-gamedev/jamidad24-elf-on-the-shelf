@@ -10,7 +10,6 @@ namespace MiguelGameDev.ElfOnTheShelf
         private GameUi _gameUi;
 
         public Player Player => _player;
-       
         public bool OnlyDrawActionCards
         {
             get => _player.OnlyDrawActionCards;
@@ -34,10 +33,10 @@ namespace MiguelGameDev.ElfOnTheShelf
             _gameUi.Init(_player.DeckCardsLeft());
             _turnStateMachine.Init();
         }
-        
+
         public void Win()
         {
-
+            
         }
 
         public void Lose()
