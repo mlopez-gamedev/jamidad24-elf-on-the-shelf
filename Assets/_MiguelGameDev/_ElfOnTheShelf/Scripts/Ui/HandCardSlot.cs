@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -6,9 +7,11 @@ namespace MiguelGameDev.ElfOnTheShelf
 {
     public class HandCardSlot : MonoBehaviour
     {
-        private CardUi? _currentCardUi;
+        [ShowInInspector, HideInEditorMode] private CardUi? _currentCardUi;
         
         public bool IsEmpty => _currentCardUi == null;
+        
+        public CardUi CurrentCardUi => _currentCardUi;
         
         public void AddCard(CardUi cardUi)
         {
@@ -19,6 +22,11 @@ namespace MiguelGameDev.ElfOnTheShelf
             GameUi.Instance.OnSelectCard += OnSelectCard;
         }
 
+        public void RemoveCard()
+        {
+            _currentCardUi = null;
+        }
+
         private void OnSelectCard(CardUi cardUi)
         {
             if (cardUi != _currentCardUi)
@@ -27,7 +35,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
 
             GameUi.Instance.OnSelectCard -= OnSelectCard;
-            _currentCardUi = null;
+            RemoveCard();
         }
 
         public void PlayHighlight()
@@ -42,12 +50,22 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void EnableCardSelection()
         {
-            _currentCardUi.EnableSelection();
+            _currentCardUi?.EnableSelection(SelectCard, CancelSelection);
+
+            void SelectCard(CardUi cardUi)
+            {
+                GameUi.Instance.SelectActionCard((ActionCardUi)cardUi);
+            }
+            
+            void CancelSelection(CardUi cardUi)
+            {
+                GameUi.Instance.CancelCardSelection((ActionCardUi)cardUi);
+            }
         }
         
         public void DisableCardSelection()
         {
-            _currentCardUi.DisableSelection();
+            _currentCardUi?.DisableSelection();
         }
     }
 }

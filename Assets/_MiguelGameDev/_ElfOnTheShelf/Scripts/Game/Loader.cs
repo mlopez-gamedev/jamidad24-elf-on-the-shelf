@@ -21,12 +21,12 @@ namespace MiguelGameDev.ElfOnTheShelf
             {
                 new StartTurnState(),
                 new CardSelectedState(),
-                new GoalState(),
-                new BustedState(),
-                new PayBustedWithHandState(),
-                new PayBustedWithDeckState(),
-                new PayBustedWithHideCardState(), 
-                new PayBustedWithGoalState(),
+                new PayGoalState(),
+                new PayBustState(),
+                new PayBustWithHandState(),
+                new PayBustWithDeckState(),
+                new PayBustWithTrickCardState(), 
+                new PayBustWithGoalState(),
                 new DrawCardsState(),
             }, ETurnState.DrawCards);
             

@@ -11,6 +11,6 @@ namespace MiguelGameDev.ElfOnTheShelf
     {
         Prank,
         Goodie,
-        Hide,
+        Trick,
     }
 }

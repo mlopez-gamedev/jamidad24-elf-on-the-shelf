@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             _gameUi = gameUi;
         }
         
-        public void Init(string elfName, bool useElfNameAsSeed)
+        public async void Init(string elfName, bool useElfNameAsSeed)
         {
             if (useElfNameAsSeed)
             {
@@ -31,17 +32,18 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
             _player.InitializeDeck();
             _gameUi.Init(_player.DeckCardsLeft());
+            await UniTask.Delay(1000);
             _turnStateMachine.Init();
         }
 
         public void Win()
         {
-            
+            Debug.Log("Win");
         }
 
         public void Lose()
         {
-
+            Debug.Log("Lose");
         }
     }
 }

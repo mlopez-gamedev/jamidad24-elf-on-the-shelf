@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2926ca63250402ab54b331e316c1fbb, type: 3}
+  m_Name: __TestPayGoalCatalog
+  m_EditorClassIdentifier: 
+  _actionCards:
+  - {fileID: 11400000, guid: 5be1dd276c979824fba98dfecea893cb, type: 2}
+  - {fileID: 11400000, guid: 4ff5444cae1213d44b0967b3b7999405, type: 2}
+  - {fileID: 11400000, guid: 68e03f94cbcc04b47b8a7a6d00e59fe9, type: 2}
+  - {fileID: 11400000, guid: 87fb3ed99426c124a8cceb039b4f287d, type: 2}
+  - {fileID: 11400000, guid: 01b0715f4e8c1c44888f817e7a5fcebd, type: 2}
+  - {fileID: 11400000, guid: d664d9af282691242ac4a804c7eb893f, type: 2}
+  - {fileID: 11400000, guid: ceda7b1f9a31b4147b275516ba61bb06, type: 2}
+  - {fileID: 11400000, guid: 4ab3403571573fd438bb7946841edae3, type: 2}
+  - {fileID: 11400000, guid: 71d5beefc0cc9e8408f7565d7384e452, type: 2}
+  - {fileID: 11400000, guid: dda9f475a5232d34ba1fa937c236e0f8, type: 2}
+  - {fileID: 11400000, guid: 1d9107e4919eaaa4084b5b78cedae799, type: 2}
+  - {fileID: 11400000, guid: cc2434e014e96304f91a2e369b4bccd7, type: 2}
+  _goalCards:
+  - {fileID: 11400000, guid: c3f355ff35e6154448f7f666137f8a71, type: 2}
+  - {fileID: 11400000, guid: 2ab4ba0106441d341bff93a25ae4fff0, type: 2}
+  - {fileID: 11400000, guid: 318b66d1be76f7e42a2d908750c9751e, type: 2}
+  - {fileID: 11400000, guid: 5c652790191c89c489ddf8d500a11d93, type: 2}
+  - {fileID: 11400000, guid: 04d79e5b1fdf8db4d896ec2d58f17775, type: 2}
+  - {fileID: 11400000, guid: 6b587301ad6814c478eab24e1b0dd58d, type: 2}
+  - {fileID: 11400000, guid: 45ad534d641a4ec4391569d19d0e58ec, type: 2}
+  - {fileID: 11400000, guid: 64ac550f1abfaf04aada776cc69fc359, type: 2}
+  _bustCards: []

@@ -5,7 +5,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 {
     public class DiscardPilePanel : MonoBehaviour, IDropHandler
     {
-        private readonly Vector3 CardScale = Vector3.one; //new Vector3(0.8f, 0.8f, 0.8f);
+        public readonly Vector3 CardScale = Vector3.one; //new Vector3(0.8f, 0.8f, 0.8f);
         
         [SerializeField] private RectTransform _cardContainer;
         [SerializeField] private Highlight _highlight;
@@ -48,7 +48,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
 
-            if (!eventData.pointerDrag.TryGetComponent<CardUi>(out var cardUi))
+            if (!eventData.pointerDrag.TryGetComponent<ActionCardUi>(out var cardUi))
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
             void DiscardCard()
             {
-                GameUi.Instance.DiscardCard(cardUi);
+                GameUi.Instance.PlayerDiscardCard(cardUi);
             }
         }
     }

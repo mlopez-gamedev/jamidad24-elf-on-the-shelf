@@ -51,7 +51,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
 
-            if (!eventData.pointerDrag.TryGetComponent<CardUi>(out var cardUi))
+            if (!eventData.pointerDrag.TryGetComponent<ActionCardUi>(out var cardUi))
             {
                 return;
             }

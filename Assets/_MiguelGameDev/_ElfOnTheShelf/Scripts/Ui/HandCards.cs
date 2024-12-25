@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using NUnit.Framework;
 using UnityEngine;
@@ -24,6 +25,24 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             filledCardSlot = null;
             return false;
+        }
+        
+        public HandCardSlot GetCardSlot(Card card)
+        {
+            foreach (var cardSlot in _cardSlots)
+            {
+                if (cardSlot.IsEmpty)
+                {
+                    continue;
+                }
+
+                if (cardSlot.CurrentCardUi.Card == card)
+                {
+                    return cardSlot;
+                }
+            }
+
+            throw new ArgumentException();
         }
 
         public void PlayHighlightOnAllCards()

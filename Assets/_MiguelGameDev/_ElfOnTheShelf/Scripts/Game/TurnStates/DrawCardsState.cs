@@ -30,30 +30,20 @@ namespace MiguelGameDev.ElfOnTheShelf
                 }
                 
                 var card = _game.Player.DrawCard();
-                // Debug.Log($"Draw {card.Type}");
                 _gameUi.PlayDeckAmount(_game.Player.DeckCardsLeft());
-                await _gameUi.DrawCard(card);
-
-                if (!await CheckDrawnCard(card))
+                var cardSlot = await _gameUi.DrawCard(card);
+                if (!await CheckDrawnCard(card, cardSlot))
                 {
                     return;
                 }
             }
+
+            await ReintroduceCardsFromMagicalPortal();
             
             ChangeState(ETurnState.StartTurn);
-            
-            
-            // if there is no cards, you lose 
-            // if draw no Action Card check _game.OnlyDrawActionCards
-            // if true, send card and continue drawing,
-            // else if Goal and have Hide Action Card ChangeState(ETurnState.Goal) and stop
-            // else if Goal send to Magical Portal and continue
-            // else if Busted ChangeState(ETurnState.Busted) and stop
-            
-            // when all card drawed (with no stop), ChangeState(ETurnState.StartTurn) 
         }
 
-        private async UniTask<bool> CheckDrawnCard(Card card)
+        private async UniTask<bool> CheckDrawnCard(Card card, HandCardSlot cardSlot)
         {
             switch (card.Type)
             {
@@ -62,35 +52,61 @@ namespace MiguelGameDev.ElfOnTheShelf
                     return true;
                     
                 case ECardType.Goal:
+                    await UniTask.Delay(100);
+                    GoalCardUi goalCardUi = (GoalCardUi)cardSlot.CurrentCardUi;
+                    cardSlot.RemoveCard();
                     if (_game.OnlyDrawActionCards)
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
                         return true;
                     }
                     
-                    if (!_game.Player.TryGetFirstHideCardFromHand(((GoalCard)card).Suit.Id, out var actionCard))
+                    if (!_game.Player.TryGetFirstTrickCardFromHand(((GoalCard)card).Suit.Id, out var actionCard))
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
+                        _game.Player.AddCardToMagicalPortal(card);
                         return true;
                     }
+
+                    _gameUi.DrawnGoalCardUi = goalCardUi;
+                    _game.Player.PayCards.Add(actionCard);
                     
-                    // TODO: Cache actionCard to highlight and use to pay
-                    
-                    ChangeState(ETurnState.Goal);
+                    ChangeState(ETurnState.PayGoal);
                     return false;
                     
                 case ECardType.Bust:
+                    await UniTask.Delay(100);
+                    cardSlot.RemoveCard();
                     if (_game.OnlyDrawActionCards)
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
                         return true;
                     }
                     
-                    ChangeState(ETurnState.Busted);
+                    ChangeState(ETurnState.PayBust);
                     return false;
             }
             
             return true;
+        }
+
+        private async UniTask ReintroduceCardsFromMagicalPortal()
+        {
+            if (!_game.Player.TryGetMagicalPortalCards(out var cards))
+            {
+                return;
+            }
+            
+            foreach (var card in cards)
+            {
+                _game.Player.RemoveCardFromMagicalPortal(card);
+                _game.Player.AddCardToDeck(card);
+            }
+
+            await _gameUi.MoveCardsFromMagicalPortalToDeck();
+            
+            _game.Player.ShuffleDeck();
+            await _gameUi.ShuffleDeck();
         }
     }
 }

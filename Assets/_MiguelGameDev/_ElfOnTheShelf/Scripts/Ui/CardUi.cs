@@ -1,8 +1,10 @@
+using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using LeTai.TrueShadow;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
-
 using UnityEngine.EventSystems;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -13,21 +15,26 @@ namespace MiguelGameDev.ElfOnTheShelf
         [SerializeField] private Image _picture;
         [SerializeField] private Image _reversePicture;
         [SerializeField] private Highlight _highlight;
+        [SerializeField] private TrueShadow _shadow;
         
-        private RectTransform _rectTransform;
-        private Canvas _canvas;
+        protected RectTransform _rectTransform;
+        protected Canvas _canvas;
         private bool _flippedUp = false;
         
-        private bool _canSelect;
-        private bool _isSelected;
-        public Card Card { get; private set; }
-        public bool IsFlippedUp => _flippedUp;
+        [ShowInInspector, HideInEditorMode] protected bool _canSelect;
+        [ShowInInspector, HideInEditorMode] protected bool _isSelected;
+        
+        public RectTransform RectTransform => _rectTransform ??= (RectTransform)transform;
+        [ShowInInspector, HideInEditorMode] public Card Card { get; private set; }
+        [ShowInInspector, HideInEditorMode] public bool IsFlippedUp => _flippedUp;
 
+        private Action<CardUi> _beginDragAction;
+        private Action<CardUi> _endDragAction;
+        
         private void Awake()
         {
             _interactableBackground.raycastTarget = false;
-            _rectTransform = GetComponent<RectTransform>();
-            _canvas = _rectTransform.root.GetComponent<Canvas>();
+            _canvas = RectTransform.root.GetComponent<Canvas>();
         }
         
         protected void Setup(Card card)
@@ -78,9 +85,13 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
         }
         
-        public void EnableSelection()
+        public void EnableSelection(Action<CardUi> beginDragAction, Action<CardUi> endDragAction)
         {
             _canSelect = true;
+            
+            _beginDragAction = beginDragAction;
+            _endDragAction = endDragAction;
+            
             PlayHighlight();
         }
         
@@ -102,7 +113,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             _highlight.Stop();
         }
 
-        public void Drop(Transform parent, Vector3 scale, TweenCallback callback)
+        public async void Drop(Transform parent, Vector3 scale, TweenCallback callback)
         {
             if (!_isSelected)
             {
@@ -110,12 +121,16 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
             _isSelected = false;
             
+            await UniTask.Yield();
+            
             transform.SetParent(parent, true);
-            transform.DOLocalMove(Vector3.zero, 0.1f).OnComplete(callback);
+            //float duration = Vector3.Distance(transform.position, parent.position) / 1200f;
+            RectTransform.DOAnchorPos(Vector2.zero, 0.2f).OnComplete(callback);
             if (transform.localScale != scale)
             {
-                transform.DOScale(scale, 0.1f);
+                transform.DOScale(scale, 0.2f);
             }
+            HideShadow();
         }
         
         public void OnBeginDrag(PointerEventData eventData)
@@ -125,7 +140,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
             
-            GameUi.Instance.SelectCard(this);
+            _beginDragAction?.Invoke(this);
             _isSelected = true;
             StopHighlight();
         }
@@ -137,7 +152,10 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
             _isSelected = false;
-            GameUi.Instance.CancelCardSelection(this);
+            _endDragAction?.Invoke(this);
+            
+            _beginDragAction = null;
+            _endDragAction = null;
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -147,6 +165,11 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
             _rectTransform.anchoredPosition += eventData.delta * _canvas.scaleFactor;
+        }
+
+        public void HideShadow()
+        {
+            _shadow.enabled = false;
         }
     }
 }

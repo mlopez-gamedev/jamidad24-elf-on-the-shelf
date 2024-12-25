@@ -59,5 +59,10 @@ namespace MiguelGameDev.ElfOnTheShelf
             _cardUis.Add(card, cardUi);
             return cardUi;
         }
+
+        public void RemoveCardUi(Card card)
+        {
+            _cardUis.Remove(card);
+        }
     }
 }

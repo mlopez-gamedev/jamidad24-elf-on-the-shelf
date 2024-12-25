@@ -1,30 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Assertions;
-using Sequence = Unity.VisualScripting.Sequence;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
     public class GameUi : SingletonBehaviour<GameUi>
     {
         [SerializeField] private CardUiFactory _cardUiFactory;
-        [SerializeField] private Transform _deckCards;
+        [SerializeField] private DeckPanel _deckPanel;
         [SerializeField] private Transform _freeCards;
         [SerializeField] private HandCards _handCards;
         [SerializeField] private RunPanel _runPanel;
+        [SerializeField] private GoalCardsPanel _goalCardsPanel;
         [SerializeField] private DiscardPilePanel _discardPilePanel;
         [SerializeField] private MagicalPortalCards _magicalPortalCards;
         [SerializeField] private DeckAmountUi _deckAmountUi;
-
-        private CardUi _selectedCardUi;
-        public CardUi SelectedCardUi => _selectedCardUi;
         
-        public event System.Action<CardUi> OnSelectCard;
-        public event System.Action<CardUi> OnCancelCardSelection;
-        public event System.Action<CardUi> OnPlayCard;
-        public event System.Action<CardUi> OnDiscardCard;
+        [SerializeField] private PayGoalPanel _payGoalPanel;
+        
+        private ActionCardUi _selectedActionCardUi;
+        public ActionCardUi SelectedActionCardUi => _selectedActionCardUi;
+        public GoalCardUi DrawnGoalCardUi { get; set; }
+        
+        public event System.Action<ActionCardUi> OnSelectCard;
+        public event System.Action<ActionCardUi> OnCancelCardSelection;
+        public event System.Action<ActionCardUi> OnPlayerPlayCard;
+        public event System.Action<ActionCardUi> OnPlayerDiscardCard;
         
         public void Init(int amount)
         {
@@ -93,22 +98,26 @@ namespace MiguelGameDev.ElfOnTheShelf
             // TODO
         }
 
-        public void ShowGoalPanel()
+        public UniTask<bool> ShowGoalPanel(ActionCard trickCard)
         {
-            // TODO
+            return _payGoalPanel.Show(DrawnGoalCardUi, trickCard);
         }
-
-        [Button]
-        public UniTask DrawCard(Card card)
+        
+        public UniTask<HandCardSlot> DrawCard(Card card)
         {
-            var cardUi = _cardUiFactory.CreateCardUi(card, _deckCards);
-            Audio2dService.Instance.PlayAudio(EAudioEvent.DrawSfx);
+            var cardUi = _deckPanel.DrawCard(card);
             return MoveCardToHand(cardUi);
         }
-
-        public void SelectCard(CardUi cardUi)
+        
+        public async UniTask CompleteGoal(GoalCard card)
         {
-            _selectedCardUi = cardUi;
+            var cardUi = await _deckPanel.SearchCard(card) as GoalCardUi;
+            await MoveCardToGoalPanel(cardUi);
+        }
+
+        public void SelectActionCard(ActionCardUi cardUi)
+        {
+            _selectedActionCardUi = cardUi;
             
             cardUi.transform.SetParent(_freeCards, true);
             cardUi.transform.DORotate(Vector3.zero, 0.05f).SetEase(Ease.Flash);
@@ -116,9 +125,9 @@ namespace MiguelGameDev.ElfOnTheShelf
             OnSelectCard?.Invoke(cardUi);
         }
 
-        public void PlayCard(CardUi cardUi)
+        public void PlayCard(ActionCardUi cardUi)
         {
-            if (cardUi != _selectedCardUi)
+            if (cardUi != _selectedActionCardUi)
             {
                 return;
             }
@@ -126,13 +135,13 @@ namespace MiguelGameDev.ElfOnTheShelf
             Audio2dService.Instance.PlayAudio(EAudioEvent.PlayActionSfx);
             DisableAll();
             
-            _selectedCardUi = null;
-            OnPlayCard?.Invoke(cardUi);
+            _selectedActionCardUi = null;
+            OnPlayerPlayCard?.Invoke(cardUi);
         }
         
-        public void DiscardCard(CardUi cardUi)
+        public void PlayerDiscardCard(ActionCardUi cardUi)
         {
-            if (cardUi != _selectedCardUi)
+            if (cardUi != _selectedActionCardUi)
             {
                 return;
             }
@@ -140,35 +149,39 @@ namespace MiguelGameDev.ElfOnTheShelf
             Audio2dService.Instance.PlayAudio(EAudioEvent.DiscardSfx);
             DisableAll();
             
-            _selectedCardUi = null;
-            OnDiscardCard?.Invoke(cardUi);
+            _selectedActionCardUi = null;
+            OnPlayerDiscardCard?.Invoke(cardUi);
         }
         
-        public void CancelCardSelection(CardUi cardUi)
+        public void CancelCardSelection(ActionCardUi cardUi)
         {
-            if (cardUi != _selectedCardUi)
+            if (cardUi != _selectedActionCardUi)
             {
                 return;
             }
 
             DisableAll();
             
-            _selectedCardUi = null;
+            _selectedActionCardUi = null;
             OnCancelCardSelection?.Invoke(cardUi);
         }
 
-        public UniTask MoveCardToHand(Card card)
+        public UniTask ShuffleDeck()
+        {
+            return _deckPanel.PlayShuffle();
+        }
+
+        public UniTask<HandCardSlot> MoveCardToHand(ActionCard card)
         {
             var cardUi = _cardUiFactory.GetCardUi(card);
-            return MoveCardToHand(cardUi);
+            return MoveCardToHand((ActionCardUi)cardUi);
         }
         
-        [Button]
-        public async UniTask MoveCardToHand(CardUi cardUi)
+        public async UniTask<HandCardSlot> MoveCardToHand(CardUi cardUi)
         {
             if (!_handCards.TryGetFirstEmptySlot(out var cardSlot))
             {
-                return;
+                return null;
             }
             
             cardUi.transform.SetParent(_freeCards, true);
@@ -188,6 +201,30 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
             
             await moveToHandSequence.AsyncWaitForCompletion();
+            cardSlot.AddCard(cardUi);
+            return cardSlot;
+        }
+
+        public async UniTask MoveCardToGoalPanel(GoalCardUi cardUi)
+        {
+            var cardSlot = _goalCardsPanel.GetEmptyGoalCardSlot(((GoalCard)cardUi.Card).Suit.Id);
+            cardUi.transform.SetParent(_freeCards, true);
+            
+            var duration = Mathf.Clamp(
+                Vector3.Distance(cardUi.transform.position, cardSlot.transform.position) / 600f,
+                0.1f,
+                0.6f);
+            
+            var moveToHandSequence = DOTween.Sequence()
+                .Join(cardUi.transform.DOMove(cardSlot.transform.position, duration))
+                .Join(cardUi.transform.DOScale(_goalCardsPanel.transform.localScale, duration));
+            
+            if (!cardUi.IsFlippedUp)
+            {
+                moveToHandSequence.Join(cardUi.FlipUp());
+            }
+            
+            await moveToHandSequence.AsyncWaitForCompletion();
             
             cardSlot.AddCard(cardUi);
         }
@@ -198,7 +235,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             return MoveCardToMagicalPortal(cardUi);
         }
         
-        [Button]
         public async UniTask MoveCardToMagicalPortal(CardUi cardUi)
         {
             cardUi.transform.SetParent(_freeCards, true);
@@ -209,6 +245,75 @@ namespace MiguelGameDev.ElfOnTheShelf
                 .AsyncWaitForCompletion();
             Audio2dService.Instance.PlayAudio(EAudioEvent.MagicalPortalSfx);
             _magicalPortalCards.AddCard(cardUi);
+        }
+
+        public async UniTask MoveCardsFromMagicalPortalToDeck()
+        {
+            var moveTasks = new List<UniTask>();
+
+            int count = 0;
+            while(_magicalPortalCards.TryPopCard(_freeCards, out var cardUi))
+            {
+                moveTasks.Add(MoveCardFromMagicalPortalToDeck(cardUi, count * 200));
+                ++count;
+            };
+            
+            await UniTask.WhenAll(moveTasks);
+
+            async UniTask MoveCardFromMagicalPortalToDeck(CardUi cardUi, int delay)
+            {
+                if (delay > 0)
+                {
+                    await UniTask.Delay(delay);
+                }
+                await MoveCardToDeck(cardUi);
+                CardUiFactory.Instance.RemoveCardUi(cardUi.Card);
+            }
+        }
+        
+        public async UniTask MoveCardToDeck(CardUi cardUi)
+        {
+            if (cardUi.transform.parent != _freeCards)
+            {
+                cardUi.transform.SetParent(_freeCards, true);
+            }
+
+            var duration = Mathf.Clamp(
+                Vector3.Distance(cardUi.transform.position, _deckPanel.transform.position) / 300f,
+                0.1f,
+                0.6f);
+            
+            var moveToHandSequence = DOTween.Sequence()
+                .Join(cardUi.transform.DOMove(_deckPanel.transform.position, duration))
+                .Join(cardUi.transform.DOScale(_deckPanel.transform.localScale, duration));
+            
+            if (cardUi.IsFlippedUp)
+            {
+                moveToHandSequence.Join(cardUi.FlipDown());
+            }
+            
+            await moveToHandSequence.AsyncWaitForCompletion();
+            Destroy(cardUi.gameObject);
+        }
+        
+        public async UniTask MoveCardToDiscardPanel(CardUi cardUi)
+        {
+            Audio2dService.Instance.PlayAudio(EAudioEvent.DiscardSfx);
+            cardUi.RectTransform.SetParent(_discardPilePanel.transform, true);
+            float duration = Vector3.Distance(cardUi.transform.position, _discardPilePanel.transform.position) / 600f;
+
+            await UniTask.Yield();
+            
+            var moveToDiscardPileSequence = DOTween.Sequence()
+                .Join(cardUi.RectTransform.DOAnchorPos(Vector2.zero, duration));
+            if (cardUi.RectTransform.localScale != _discardPilePanel.CardScale)
+            {
+                moveToDiscardPileSequence.Join(
+                    cardUi.RectTransform.DOScale(_discardPilePanel.CardScale, duration));
+            }
+            
+            await moveToDiscardPileSequence.AsyncWaitForCompletion();
+            cardUi.HideShadow();
         }
     }
 }

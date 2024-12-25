@@ -5,12 +5,12 @@
         StartTurn,
         CardSelected,
         Spell,
-        Goal,
-        Busted,
-        PayBustedWithHand,
-        PayBustedWithDeck,
-        PayBustedWithHideCard,
-        PayBustedWithGoal,
+        PayGoal,
+        PayBust,
+        PayBustWithHand,
+        PayBustWithDeck,
+        PayBustWithTrickCard,
+        PayBustWithGoal,
         DrawCards
     }
 }

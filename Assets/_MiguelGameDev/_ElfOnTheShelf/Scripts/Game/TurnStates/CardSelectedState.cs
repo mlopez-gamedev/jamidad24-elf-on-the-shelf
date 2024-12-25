@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -12,27 +13,67 @@ namespace MiguelGameDev.ElfOnTheShelf
         internal override void Start(Action<ETurnState> onStateEndCallback)
         {
             base.Start(onStateEndCallback);
+            bool canPlaySelectedCard = _game.Player.CanPlayAction((ActionCard)_gameUi.SelectedActionCardUi.Card);
             
             _gameUi.SetEnableCardSelection(false);
             _gameUi.SetEnableDeck(false);
             _gameUi.SetEnableGoals(false);
             
-            _gameUi.SetEnableDropOnRunPanel(true);
+            _gameUi.SetEnableDropOnRunPanel(canPlaySelectedCard);
             _gameUi.SetEnableDropOnDiscardPilePanel(true);
 
             _gameUi.OnCancelCardSelection += OnCancelCardSelection;
-            _gameUi.OnPlayCard += OnPlayCard;
-            _gameUi.OnDiscardCard += OnDiscardCard;
+            _gameUi.OnPlayerPlayCard += OnPlayerPlayCard;
+            _gameUi.OnPlayerDiscardCard += OnPlayerDiscardCard;
         }
 
-        private void OnPlayCard(CardUi cardUi)
+        private void OnPlayerPlayCard(ActionCardUi cardUi)
         {
-            Debug.Log("Play card");
+            var actionCard = (ActionCard)cardUi.Card;
+            if (!_game.Player.PlayCardAndCheckGoal(actionCard))
+            {
+                ChangeState(ETurnState.DrawCards);
+                return;
+            }
+
+            if (!_game.Player.TryGetGoalCardFromDeck(actionCard.Suit.Id, out var goalCard))
+            {
+                ShuffleAndEndTurn();
+                return;
+            }
+
+            CompleteGoalAndEndTurn(goalCard);
         }
         
-        private void OnDiscardCard(CardUi cardUi)
+        private async void CompleteGoalAndEndTurn(GoalCard goalCard)
         {
-            Debug.Log("Discard card");
+            await _gameUi.CompleteGoal(goalCard);
+            if (_game.Player.AddCardCompletedGoalsAndCheckVictory(goalCard))
+            {
+                _game.Win();
+                return;
+            }
+            
+            ShuffleAndEndTurn();
+        } 
+
+        private async void ShuffleAndEndTurn()
+        {
+            _game.Player.ShuffleDeck();
+            await _gameUi.ShuffleDeck();
+            ChangeState(ETurnState.DrawCards);
+        } 
+        
+        private void OnPlayerDiscardCard(ActionCardUi cardUi)
+        {
+            _game.Player.DiscardCard(cardUi.ActionCard);
+            if (cardUi.ActionCard.ActionType.Id == EActionType.Trick)
+            {
+                // TODO: Play Spell
+                // return
+            }
+            
+            ChangeState(ETurnState.DrawCards);
         }
         
         private async void OnCancelCardSelection(CardUi cardUi)
@@ -41,24 +82,12 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             ChangeState(ETurnState.StartTurn);
         }
-        
-        private void OnTryPlayCardOnRun(ActionCard card)
-        {
-            if (false)
-            {
-                ChangeState(ETurnState.StartTurn);
-            }
-            
-            // Add Card to Run
-            // Check if it completes a goal
-            // if yes, add goal to goals panel
-            // draw card
-            // if draw a portal, check if you have, a key
-        }
 
         internal override void Stop()
         {
             _gameUi.OnCancelCardSelection -= OnCancelCardSelection;
+            _gameUi.OnPlayerPlayCard -= OnPlayerPlayCard;
+            _gameUi.OnPlayerDiscardCard -= OnPlayerDiscardCard;
             base.Stop();
         }
     }

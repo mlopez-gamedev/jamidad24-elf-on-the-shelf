@@ -12,8 +12,8 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void Setup(CardUi card)
         {
             _card = card;
-            card.transform.SetParent(_cardSocket);
-            card.transform.rotation = Quaternion.identity;
+            card.transform.SetParent(_cardSocket, true);
+            card.transform.localRotation = Quaternion.identity;
             card.transform.DOLocalMove(Vector3.zero, 0.2f);
         }
 
