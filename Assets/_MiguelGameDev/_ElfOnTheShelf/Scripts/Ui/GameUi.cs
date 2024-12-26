@@ -23,6 +23,8 @@ namespace MiguelGameDev.ElfOnTheShelf
         [SerializeField] private PayGoalPanel _payGoalPanel;
         [SerializeField] private PayBustPanel _payBustPanel;
         
+        [SerializeField] private EndGameScreen _endGameScreen;
+        
         private ActionCardUi _selectedActionCardUi;
         [ShowInInspector, HideInEditorMode] public ActionCardUi SelectedActionCardUi => _selectedActionCardUi;
         [ShowInInspector, HideInEditorMode] public GoalCardUi DrawnGoalCardUi { get; set; }
@@ -394,10 +396,22 @@ namespace MiguelGameDev.ElfOnTheShelf
             return UniTask.WhenAll(moveTasks);
         }
 
+        public UniTask DiscardCard(CardUi cardUi)
+        {
+            var cardSlot = _handCards.GetCardSlot(cardUi.Card);
+            cardSlot.RemoveCard();
+            return MoveCardToDiscardPanel(cardUi);
+        }
+
         public UniTask RemoveGoalCard(GoalCardUi cardUi)
         {
             _goalCardsPanel.RemoveGoalCard(cardUi, _freeCards);
             return MoveCardToMagicalPortal(cardUi);
+        }
+
+        public void EndGame(bool isWin)
+        {
+            _endGameScreen.Show(isWin);
         }
     }
 }

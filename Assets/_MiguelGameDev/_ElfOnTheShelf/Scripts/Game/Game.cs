@@ -38,12 +38,12 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void Win()
         {
-            Debug.Log("Win");
+            GameUi.Instance.EndGame(true);
         }
 
         public void Lose()
         {
-            Debug.Log("Lose");
+            GameUi.Instance.EndGame(false);
         }
     }
 }

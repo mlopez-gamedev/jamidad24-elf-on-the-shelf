@@ -77,7 +77,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             void OnEndDrag(CardUi cardUi)
             {
-                Debug.Log("PayGoalPanel OnEndDrag");
                 _magicalPortal.StopHighlight();
                 _trickCardUi.StopHighlight();
                 DOCenterAtSlot(cardUi.RectTransform, 0.1f)
@@ -94,6 +93,8 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public async void Pay()
         {
+            _trickCardUi.StopHighlight();
+            _magicalPortal.StopHighlight();
             _goalCardUi.StopSelection();
             _magicalPortal.transform.SetParent(_magicalPortalSlot, true);
             _trickCardHandSlot.RemoveCard();
@@ -117,6 +118,8 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public async void SendToMagicalPortal()
         {
+            _trickCardUi.StopHighlight();
+            _magicalPortal.StopHighlight();
             _goalCardUi.StopSelection();
             _background.DOFade(1, 0.2f);
             await GameUi.Instance.MoveCardToMagicalPortal(_goalCardUi);

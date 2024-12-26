@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -189,6 +190,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void DiscardCard(ActionCard card)
         {
+            Debug.Log($"Discard card: {card.name}");
             _hand.Remove(card);
             AddCardToDiscardPile(card);
         }

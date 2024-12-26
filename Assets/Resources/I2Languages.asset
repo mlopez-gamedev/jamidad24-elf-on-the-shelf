@@ -16,20 +16,123 @@ MonoBehaviour:
     UserAgreesToHaveItOnTheScene: 0
     UserAgreesToHaveItInsideThePluginsFolder: 0
     GoogleLiveSyncIsUptoDate: 1
-    mTerms: []
+    mTerms:
+    - Term: Title/Subtitle
+      TermType: 0
+      Description: 
+      Languages:
+      - The card game
+      - El juego de cartas
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Start
+      TermType: 0
+      Description: 
+      Languages:
+      - Start
+      - Empezar
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Back
+      TermType: 0
+      Description: 
+      Languages:
+      - Back
+      - Volver
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/DiscardHand
+      TermType: 0
+      Description: 
+      Languages:
+      - Discard hand
+      - Descarta mano
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Trick
+      TermType: 0
+      Description: 
+      Languages:
+      - Trick
+      - Truco
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Goal
+      TermType: 0
+      Description: 
+      Languages:
+      - Bro
+      - Colega
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Busted
+      TermType: 0
+      Description: 
+      Languages:
+      - Busted!
+      - "\xA1Pillada!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: EndGame/LoseDescription
+      TermType: 0
+      Description: 
+      Languages:
+      - Jam Tart won't be celebrating Christmas with their friends :(
+      - "Mantecao de Mermelada no celebrar\xE1 la Navidad con sus amigos :("
+      Flags: 0000
+      Languages_Touch: []
+    - Term: EndGame/LoseTitle
+      TermType: 0
+      Description: 
+      Languages:
+      - The night is over!
+      - "\xA1Se acab\xF3 la noche!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/BackMenu
+      TermType: 0
+      Description: 
+      Languages:
+      - Back to menu
+      - "Volver al men\xFA"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: EndGame/WinTitle
+      TermType: 0
+      Description: 
+      Languages:
+      - You nailed it!
+      - "\xA1Lo has bordado!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: EndGame/WinDescription
+      TermType: 0
+      Description: 
+      Languages:
+      - "You\u2019ve found all of Jam Tart\u2019s friends!\nHappy Holidays!"
+      - "\xA1Has encontrado a todos los amigos de Mantecao de Mermelada! \xA1Felices
+        Fiestas!"
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
-    mLanguages: []
+    mLanguages:
+    - Name: English
+      Code: en
+      Flags: 0
+    - Name: Spanish
+      Code: es
+      Flags: 0
     IgnoreDeviceLanguage: 0
     _AllowUnloadingLanguages: 0
-    Google_WebServiceURL: 
-    Google_SpreadsheetKey: 
-    Google_SpreadsheetName: 
+    Google_WebServiceURL: https://script.google.com/macros/s/AKfycby7Z1NeRJuviHmJ8k9pIw8KB0DfYgfDkoxOqMyCitRaRXHUZgdmROB2vHxHblgK0IQaEA/exec
+    Google_SpreadsheetKey: 1FsQnTe9zTeUWvMgoD_2Qqc_X8iPSjDwWMEr6exWmYSc
+    Google_SpreadsheetName: I2Loc Elf on the Shelf Localization
     Google_LastUpdatedVersion: 
     Google_Password: change_this
-    GoogleUpdateFrequency: 3
-    GoogleInEditorCheckFrequency: 2
+    GoogleUpdateFrequency: 1
+    GoogleInEditorCheckFrequency: 1
     GoogleUpdateSynchronization: 1
     GoogleUpdateDelay: 0
     Assets: []

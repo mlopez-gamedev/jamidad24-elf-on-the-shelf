@@ -31,7 +31,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                     payBustOptionWithCard = (PayBustOptionWithCard)payBustOption;
                     var trickCardUi = (ActionCardUi)payBustOptionWithCard.CardUi;
                     _game.Player.DiscardCard(trickCardUi.ActionCard);
-                    await GameUi.Instance.MoveCardToDiscardPanel(trickCardUi);
+                    await GameUi.Instance.DiscardCard(trickCardUi);
                     break;
                 
                 case EPayBustOption.DiscardDeckCards:
