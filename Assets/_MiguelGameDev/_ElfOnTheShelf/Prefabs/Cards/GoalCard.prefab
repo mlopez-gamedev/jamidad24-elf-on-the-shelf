@@ -58,14 +58,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.387, g: 0.2925939, b: 0.025541993, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ba4a7d2821df8054491a09333564a256, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -219,6 +219,7 @@ MonoBehaviour:
   _picture: {fileID: 3232748283475533505}
   _reversePicture: {fileID: 2752029870247327474}
   _highlight: {fileID: 1147306194481416252}
+  _shadow: {fileID: 5741999276472082934}
   _strokeImage: {fileID: 4488676826141944296}
   _background: {fileID: 333166039271989978}
 --- !u!1 &7148313525032649447
@@ -432,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2193841247291334241, guid: 22e4dd2277d42044c9f08392cc7756a9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6087031904871328033, guid: 22e4dd2277d42044c9f08392cc7756a9, type: 3}
       propertyPath: m_RaycastTarget

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c28a8b651e4827b6f5ab9a69c6f343, type: 3}
   m_Name: BedroomGoal_1
   m_EditorClassIdentifier: 
-  _picture: {fileID: 0}
+  _picture: {fileID: 21300000, guid: ba4a7d2821df8054491a09333564a256, type: 3}
   _suit: {fileID: 11400000, guid: 7216c3661cb57c44797531861571f413, type: 2}

@@ -27,9 +27,11 @@ namespace MiguelGameDev.ElfOnTheShelf
         [ShowInInspector] private readonly List<Card> _magicalPortal = new List<Card>();
         [ShowInInspector] private readonly List<GoalCard> _completedGoalCards = new List<GoalCard>();
 
-        public bool OnlyDrawActionCards { get; set; }
+        [ShowInInspector] public bool OnlyDrawActionCards { get; set; }
         
-        public List<ActionCard> PayCards { get; set; } = new List<ActionCard>();
+        [ShowInInspector] public List<ActionCard> PayCards { get; set; } = new List<ActionCard>();
+        public List<GoalCard> CompletedGoalCards => _completedGoalCards;
+        public int HandCardsCount => _hand.Count;
 
         public Player(CardsCatalog cardsCatalog)
         {
@@ -95,6 +97,20 @@ namespace MiguelGameDev.ElfOnTheShelf
 
             actionCard = null;
             return false;
+        }
+        
+        public List<ActionCard> GetAllTrickCardsFromHand()
+        {
+            var trickCards = new List<ActionCard>();
+            foreach (var card in _hand)
+            {
+                if (card.Type == ECardType.Action && card.ActionType.Id == EActionType.Trick)
+                {
+                    trickCards.Add(card);
+                }
+            }
+            
+            return trickCards;
         }
 
         public List<Card> GetSpellCards()
@@ -176,6 +192,33 @@ namespace MiguelGameDev.ElfOnTheShelf
             AddCardToDiscardPile(card);
         }
 
+        public void DiscardHand()
+        {
+            foreach (var card in _hand)
+            {
+                AddCardToDiscardPile(card);    
+            }
+            _hand.Clear();
+        }
+        
+        public Card[] DiscardTopDeckCards(int amount)
+        {
+            Card[] cards = new Card[amount];
+            for (int i = 0; i < amount; i++)
+            {
+                cards[i] = _deck.Pop();
+                if (cards[i].Type == ECardType.Action)
+                {
+                    AddCardToDiscardPile(cards[i]);
+                    continue;
+                }
+                
+                AddCardToMagicalPortal(cards[i]);
+            }
+
+            return cards;
+        }
+        
         public void AddCardToDiscardPile(Card card)
         {
             Assert.IsFalse(card.Type == ECardType.Goal);
@@ -240,6 +283,11 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void AddCardToDeck(Card card)
         {
             _deck.Push(card);
+        }
+
+        public void RemoveGoal(GoalCard goalCard)
+        {
+            _completedGoalCards.Remove(goalCard);
         }
     }
 }

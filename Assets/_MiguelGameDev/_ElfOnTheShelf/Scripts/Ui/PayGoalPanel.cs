@@ -13,9 +13,10 @@ namespace MiguelGameDev.ElfOnTheShelf
         [SerializeField] private Image _background;
         [SerializeField] private RectTransform _panel;
         
-        [SerializeField] private SendGoalCardToMagicalPortal _magicalPortalPaySlot;
         [SerializeField] private RectTransform _goalCardSlot;
-        [SerializeField] private PayGoalWithTrickCardSlot _trickCardPaySlot;
+        
+        [SerializeField] private PayOptionSlot _magicalPortalPaySlot;
+        [SerializeField] private PayOptionSlot _trickCardPaySlot;
         
         [SerializeField] private HandCards _handCards;
         [SerializeField] private RectTransform _magicalPortalSlot;
@@ -34,8 +35,8 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             _background.SetAlpha(0);
             
-            _magicalPortalPaySlot.Setup(this);
-            _trickCardPaySlot.Setup(this);
+            _magicalPortalPaySlot.Setup(SendToMagicalPortal);
+            _trickCardPaySlot.Setup(Pay);
         }
 
         public UniTask<bool> Show(GoalCardUi goalCardUi, ActionCard trickCard)
@@ -76,6 +77,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             void OnEndDrag(CardUi cardUi)
             {
+                Debug.Log("PayGoalPanel OnEndDrag");
                 _magicalPortal.StopHighlight();
                 _trickCardUi.StopHighlight();
                 DOCenterAtSlot(cardUi.RectTransform, 0.1f)
@@ -92,6 +94,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public async void Pay()
         {
+            _goalCardUi.StopSelection();
             _magicalPortal.transform.SetParent(_magicalPortalSlot, true);
             _trickCardHandSlot.RemoveCard();
             
@@ -114,6 +117,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public async void SendToMagicalPortal()
         {
+            _goalCardUi.StopSelection();
             _background.DOFade(1, 0.2f);
             await GameUi.Instance.MoveCardToMagicalPortal(_goalCardUi);
             

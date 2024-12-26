@@ -322,6 +322,7 @@ MonoBehaviour:
   _picture: {fileID: 1051656858012943420}
   _reversePicture: {fileID: 6062370409257604971}
   _highlight: {fileID: 8544578821687533290}
+  _shadow: {fileID: 6503807232286262775}
   _background: {fileID: 1211077927029508531}
   _strokeImage: {fileID: 6241716082341066416}
   _actionTypeIconPanel: {fileID: 1281181952814656162}

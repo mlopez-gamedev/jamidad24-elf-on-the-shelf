@@ -219,6 +219,7 @@ MonoBehaviour:
   _picture: {fileID: 4462489618944324988}
   _reversePicture: {fileID: 6845361813178416088}
   _highlight: {fileID: 513544037626465529}
+  _shadow: {fileID: 3123908936758089545}
 --- !u!1 &6324848898700402090
 GameObject:
   m_ObjectHideFlags: 0

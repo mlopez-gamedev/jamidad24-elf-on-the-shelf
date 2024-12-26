@@ -21,10 +21,12 @@ namespace MiguelGameDev.ElfOnTheShelf
         [SerializeField] private DeckAmountUi _deckAmountUi;
         
         [SerializeField] private PayGoalPanel _payGoalPanel;
+        [SerializeField] private PayBustPanel _payBustPanel;
         
         private ActionCardUi _selectedActionCardUi;
-        public ActionCardUi SelectedActionCardUi => _selectedActionCardUi;
-        public GoalCardUi DrawnGoalCardUi { get; set; }
+        [ShowInInspector, HideInEditorMode] public ActionCardUi SelectedActionCardUi => _selectedActionCardUi;
+        [ShowInInspector, HideInEditorMode] public GoalCardUi DrawnGoalCardUi { get; set; }
+        [ShowInInspector, HideInEditorMode] public BustCardUi DrawnBustCardUi { get; set; }
         
         public event System.Action<ActionCardUi> OnSelectCard;
         public event System.Action<ActionCardUi> OnCancelCardSelection;
@@ -39,6 +41,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void PlayDeckAmount(int amount)
         {
             _deckAmountUi.PlaySetAmount(amount);
+            _deckPanel.SetHidden(amount == 0);
         }
         public void EnableAndHighlightCardSelection(bool onlyHighlightHideCards)
         {
@@ -93,20 +96,66 @@ namespace MiguelGameDev.ElfOnTheShelf
             // TODO
         }
 
-        public void ShowBustedPanel()
-        {
-            // TODO
-        }
-
-        public UniTask<bool> ShowGoalPanel(ActionCard trickCard)
+        public UniTask<bool> ShowPayGoalPanel(ActionCard trickCard)
         {
             return _payGoalPanel.Show(DrawnGoalCardUi, trickCard);
         }
         
-        public UniTask<HandCardSlot> DrawCard(Card card)
+        public UniTask<PayBustOption> ShowPayBustPanel(ActionCard[] trickCards)
+        {
+            return _payBustPanel.Show(DrawnBustCardUi, trickCards);
+        }
+        
+        public UniTask<HandCardSlot> DrawCardToHand(Card card)
         {
             var cardUi = _deckPanel.DrawCard(card);
             return MoveCardToHand(cardUi);
+        }
+
+        public UniTask DiscardTopDeckCards(Card[] cards)
+        {
+            var tasks = new UniTask[cards.Length];
+            for (int i = 0; i < cards.Length; i++)
+            {
+                tasks[i] = DiscardCard(cards[i], i * 500);
+            }
+            
+            return UniTask.WhenAll(tasks);
+            
+
+            async UniTask DiscardCard(Card card, int delay)
+            {
+                if (delay > 0)
+                {
+                    await Task.Delay(delay);
+                }
+
+                var cardUi = await PeekTopCard(card);
+                if (card.Type == ECardType.Action)
+                {
+                    await MoveCardToDiscardPanel(cardUi);
+                    return;
+                }
+
+                await MoveCardToMagicalPortal(cardUi);
+            }
+        }
+        
+        public async UniTask<CardUi> PeekTopCard(Card card)
+        {
+            var cardUi = _deckPanel.DrawCard(card);
+            cardUi.transform.SetParent(_freeCards, true);
+            
+            var moveToHandSequence = DOTween.Sequence()
+                .Join(cardUi.transform.DOMoveY(120f, 0.2f));
+
+            if (!cardUi.IsFlippedUp)
+            {
+                moveToHandSequence.Join(cardUi.FlipUp());
+            }
+            
+            await moveToHandSequence.AsyncWaitForCompletion();
+            return cardUi;
         }
         
         public async UniTask CompleteGoal(GoalCard card)
@@ -187,7 +236,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             cardUi.transform.SetParent(_freeCards, true);
             
             var duration = Mathf.Clamp(
-                Vector3.Distance(cardUi.transform.position, cardSlot.transform.position) / 600f,
+                Vector3.Distance(cardUi.transform.position, cardSlot.transform.position) / 800f,
                 0.1f,
                 0.6f);
             
@@ -211,7 +260,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             cardUi.transform.SetParent(_freeCards, true);
             
             var duration = Mathf.Clamp(
-                Vector3.Distance(cardUi.transform.position, cardSlot.transform.position) / 600f,
+                Vector3.Distance(cardUi.transform.position, cardSlot.transform.position) / 800f,
                 0.1f,
                 0.6f);
             
@@ -296,13 +345,20 @@ namespace MiguelGameDev.ElfOnTheShelf
             Destroy(cardUi.gameObject);
         }
         
-        public async UniTask MoveCardToDiscardPanel(CardUi cardUi)
+        public async UniTask MoveCardToDiscardPanel(CardUi cardUi, int delay = 0)
         {
             Audio2dService.Instance.PlayAudio(EAudioEvent.DiscardSfx);
             cardUi.RectTransform.SetParent(_discardPilePanel.transform, true);
-            float duration = Vector3.Distance(cardUi.transform.position, _discardPilePanel.transform.position) / 600f;
+            float duration = Vector3.Distance(cardUi.transform.position, _discardPilePanel.transform.position) / 800f;
 
-            await UniTask.Yield();
+            if (delay > 0)
+            {
+                await UniTask.Delay(delay);
+            }
+            else
+            {
+                await UniTask.Yield();    
+            }
             
             var moveToDiscardPileSequence = DOTween.Sequence()
                 .Join(cardUi.RectTransform.DOAnchorPos(Vector2.zero, duration));
@@ -312,8 +368,46 @@ namespace MiguelGameDev.ElfOnTheShelf
                     cardUi.RectTransform.DOScale(_discardPilePanel.CardScale, duration));
             }
             
+            if (cardUi.RectTransform.rotation != Quaternion.identity)
+            {
+                moveToDiscardPileSequence.Join(
+                    cardUi.RectTransform.DORotate(Vector3.zero, duration));
+            }
+            
             await moveToDiscardPileSequence.AsyncWaitForCompletion();
             cardUi.HideShadow();
+        }
+        
+        public UniTask DiscardAllHand()
+        {
+            var moveTasks = new List<UniTask>();
+            
+            int count = 0;
+            while(_handCards.TryGetFirstNotEmptySlot(out var cardUiSlot))
+            {
+                var cardUi = cardUiSlot.CurrentCardUi;
+                cardUiSlot.RemoveCard();
+                moveTasks.Add(MoveCardToDiscardPanel(cardUi, count * 200));
+                ++count;
+            };
+            
+            return UniTask.WhenAll(moveTasks);
+
+            async UniTask MoveCardFromMagicalPortalToDeck(CardUi cardUi, int delay)
+            {
+                if (delay > 0)
+                {
+                    await UniTask.Delay(delay);
+                }
+                await MoveCardToDeck(cardUi);
+                CardUiFactory.Instance.RemoveCardUi(cardUi.Card);
+            }
+        }
+
+        public UniTask RemoveGoalCard(GoalCardUi cardUi)
+        {
+            _goalCardsPanel.RemoveGoalCard(cardUi, _freeCards);
+            return MoveCardToMagicalPortal(cardUi);
         }
     }
 }

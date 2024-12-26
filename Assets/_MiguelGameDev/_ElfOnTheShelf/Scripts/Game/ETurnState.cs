@@ -7,10 +7,6 @@
         Spell,
         PayGoal,
         PayBust,
-        PayBustWithHand,
-        PayBustWithDeck,
-        PayBustWithTrickCard,
-        PayBustWithGoal,
         DrawCards
     }
 }

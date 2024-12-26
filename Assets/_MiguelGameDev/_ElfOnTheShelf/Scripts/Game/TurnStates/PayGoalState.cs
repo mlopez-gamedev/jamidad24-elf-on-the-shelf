@@ -17,7 +17,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         private async void PayGoal()
         {
-            if (await _gameUi.ShowGoalPanel(_game.Player.PayCards[0]))
+            if (await _gameUi.ShowPayGoalPanel(_game.Player.PayCards[0]))
             {
                 _game.Player.DiscardCard(_game.Player.PayCards[0]);
                 if (_game.Player.AddCardCompletedGoalsAndCheckVictory((GoalCard)_gameUi.DrawnGoalCardUi.Card))

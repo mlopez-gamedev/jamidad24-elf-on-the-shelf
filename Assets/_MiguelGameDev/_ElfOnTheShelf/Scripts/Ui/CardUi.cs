@@ -9,20 +9,23 @@ using UnityEngine.EventSystems;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
-    public abstract class CardUi : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+    public abstract class CardUi : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerClickHandler
     {
         [SerializeField] private Image _interactableBackground;
-        [SerializeField] private Image _picture;
+        [SerializeField] protected Image _picture;
         [SerializeField] private Image _reversePicture;
         [SerializeField] private Highlight _highlight;
         [SerializeField] private TrueShadow _shadow;
         
-        protected RectTransform _rectTransform;
-        protected Canvas _canvas;
+        private RectTransform _rectTransform;
+        private Canvas _canvas;
         private bool _flippedUp = false;
         
         [ShowInInspector, HideInEditorMode] protected bool _canSelect;
         [ShowInInspector, HideInEditorMode] protected bool _isSelected;
+        
+        [ShowInInspector, HideInEditorMode] private bool _isClickEnabled;
+        private Action<CardUi> _onClickAction;
         
         public RectTransform RectTransform => _rectTransform ??= (RectTransform)transform;
         [ShowInInspector, HideInEditorMode] public Card Card { get; private set; }
@@ -113,6 +116,11 @@ namespace MiguelGameDev.ElfOnTheShelf
             _highlight.Stop();
         }
 
+        public void StopSelection()
+        {
+            _isSelected = false;
+        }
+        
         public async void Drop(Transform parent, Vector3 scale, TweenCallback callback)
         {
             if (!_isSelected)
@@ -165,6 +173,25 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
             _rectTransform.anchoredPosition += eventData.delta * _canvas.scaleFactor;
+        }
+        
+        public void EnableClick(Action<CardUi> onClickAction)
+        {
+            _isClickEnabled = true;
+            _onClickAction = onClickAction;
+            PlayHighlight();
+        }
+
+        public void DisableClick()
+        {
+            _isClickEnabled = false;
+            _onClickAction = null;
+            StopHighlight();
+        }
+
+        public void OnPointerClick(PointerEventData _)
+        {
+            _onClickAction?.Invoke(this);
         }
 
         public void HideShadow()

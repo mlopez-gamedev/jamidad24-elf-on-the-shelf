@@ -31,7 +31,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                 
                 var card = _game.Player.DrawCard();
                 _gameUi.PlayDeckAmount(_game.Player.DeckCardsLeft());
-                var cardSlot = await _gameUi.DrawCard(card);
+                var cardSlot = await _gameUi.DrawCardToHand(card);
                 if (!await CheckDrawnCard(card, cardSlot))
                 {
                     return;
@@ -58,6 +58,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                     if (_game.OnlyDrawActionCards)
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
+                        _game.Player.AddCardToMagicalPortal(card);
                         return true;
                     }
                     
@@ -76,12 +77,18 @@ namespace MiguelGameDev.ElfOnTheShelf
                     
                 case ECardType.Bust:
                     await UniTask.Delay(100);
+                    BustCardUi bustCardUi = (BustCardUi)cardSlot.CurrentCardUi;
                     cardSlot.RemoveCard();
                     if (_game.OnlyDrawActionCards)
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
+                        _game.Player.AddCardToMagicalPortal(card);
                         return true;
                     }
+                    
+                    _gameUi.DrawnBustCardUi = bustCardUi;
+                    _game.Player.PayCards.AddRange(
+                        _game.Player.GetAllTrickCardsFromHand());
                     
                     ChangeState(ETurnState.PayBust);
                     return false;

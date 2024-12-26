@@ -32,5 +32,13 @@ namespace MiguelGameDev.ElfOnTheShelf
                 _highlight.Stop();
             }
         }
+
+        public void RemoveGoalCard(GoalCardUi cardUi, Transform newParent = null)
+        {
+            foreach (var goalSlot in _goalCardSlots)
+            {
+                goalSlot.RemoveCard(cardUi, newParent);
+            }
+        }
     }
 }

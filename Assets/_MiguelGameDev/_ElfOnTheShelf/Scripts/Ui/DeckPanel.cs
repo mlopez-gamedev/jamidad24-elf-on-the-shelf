@@ -8,6 +8,7 @@ namespace MiguelGameDev.ElfOnTheShelf
     public class DeckPanel : MonoBehaviour
     {
         [SerializeField] private Highlight _highlight;
+        [SerializeField] private RectTransform _cardReversed;
         [SerializeField] private RectTransform _cardReversedPrefab;
 
         private RectTransform _rectTransform;
@@ -48,6 +49,11 @@ namespace MiguelGameDev.ElfOnTheShelf
                     .AsyncWaitForCompletion();
             }
             await _rectTransform.DOAnchorPos(Vector2.zero, 0.2f).AsyncWaitForCompletion();
+        }
+
+        public void SetHidden(bool hidden)
+        {
+            _cardReversed.gameObject.SetActive(!hidden);
         }
     }
 }

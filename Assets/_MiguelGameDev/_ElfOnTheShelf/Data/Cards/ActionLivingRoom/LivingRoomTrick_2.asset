@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64930dd90c3445afad235b11c3959642, type: 3}
-  m_Name: BathroomHide_0
+  m_Name: LivingRoomTrick_2
   m_EditorClassIdentifier: 
   _picture: {fileID: 21300000, guid: 09baed9fd168db949ae894abc30059ce, type: 3}
-  _suit: {fileID: 11400000, guid: 2b8528940ddf9f14ebb95a081bde3b0a, type: 2}
+  _suit: {fileID: 11400000, guid: b2115f459825acc4dab7549442d98ce8, type: 2}
   _actionType: {fileID: 11400000, guid: ed3c9aff08083194fa5f99537cf15eb1, type: 2}
