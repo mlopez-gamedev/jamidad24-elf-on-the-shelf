@@ -16,7 +16,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         [ShowInInspector] private readonly Stack<ActionCard> _run = new Stack<ActionCard>();
         [ShowInInspector] private readonly List<ActionCard> _goalRun = new List<ActionCard>();
 
-        [ShowInInspector] private readonly Stack<Card> _deck = new Stack<Card>();
+        [ShowInInspector] private readonly List<Card> _deck = new List<Card>();
         [ShowInInspector] private readonly List<ActionCard> _hand = new List<ActionCard>();
 
         [ShowInInspector]
@@ -177,6 +177,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                 var checkGoalCard = (GoalCard)card;
                 if (checkGoalCard.Suit.Id == suit)
                 {
+                    _deck.Remove(card);
                     goalCard = checkGoalCard;
                     return true;
                 }
@@ -259,6 +260,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public bool AddCardCompletedGoalsAndCheckVictory(GoalCard card)
         {
+            _deck.Remove(card);
             _completedGoalCards.Add(card);
             return _completedGoalCards.Count == TotalGoalCards;
         }
@@ -282,7 +284,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void AddCardToDeck(Card card)
         {
-            _deck.Push(card);
+            _deck.Add(card);
         }
 
         public void RemoveGoal(GoalCard goalCard)

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -24,9 +25,10 @@ namespace MiguelGameDev.ElfOnTheShelf
             return false;
         }
         
-        public bool TryGetFirstNotEmptySlot(out HandCardSlot filledCardSlot)
+        public bool TryGetLastNotEmptySlot(out HandCardSlot filledCardSlot)
         {
-            foreach (var cardSlot in _cardSlots)
+            var reversedCards = _cardSlots.Reverse();
+            foreach (var cardSlot in reversedCards)
             {
                 if (cardSlot.IsEmpty)
                 {

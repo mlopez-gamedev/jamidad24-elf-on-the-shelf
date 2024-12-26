@@ -177,6 +177,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         public void EnableClick(Action<CardUi> onClickAction)
         {
+            Debug.Log("EnableClick");
             _isClickEnabled = true;
             _onClickAction = onClickAction;
             PlayHighlight();

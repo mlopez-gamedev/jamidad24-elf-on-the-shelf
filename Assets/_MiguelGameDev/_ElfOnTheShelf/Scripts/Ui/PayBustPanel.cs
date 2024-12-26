@@ -70,7 +70,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             for (int i = 0; i < trickCards.Length; ++i)
             {
                 _trickCardsUi[i] = (ActionCardUi)CardUiFactory.Instance.GetCardUi(trickCards[i]);
-                _trickCardsUi[i].EnableClick(ConfirmPayTrickCard);
             }
 
             var cardGoals = Game.Instance.Player.CompletedGoalCards;
@@ -78,7 +77,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             for (int i = 0; i < cardGoals.Count; ++i)
             {
                 _goalsCardsUi[i] = (GoalCardUi)CardUiFactory.Instance.GetCardUi(cardGoals[i]);
-                _goalsCardsUi[i].EnableClick(ConfirmPayGoal);
             }
             
             _payTrickCardSlot.SetEnable(_trickCardsUi.Length > 0);
@@ -155,6 +153,8 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         private async void PayHand()
         {
+            HideButtons();
+            
             UniTask[] payTasks = new[]
             {
                 GameUi.Instance.MoveCardToDiscardPanel(_bustCardUi),
@@ -245,6 +245,8 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         private async void PayDeckCards()
         {
+            HideButtons();
+            
             UniTask[] payTasks = new[]
             {
                 GameUi.Instance.MoveCardToDiscardPanel(_bustCardUi),

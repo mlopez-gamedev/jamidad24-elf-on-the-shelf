@@ -36,7 +36,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         public async UniTask PlayShuffle()
         {
-            await _rectTransform.DOAnchorPos(new Vector2(50f, 110f), 0.2f).AsyncWaitForCompletion();
+            await _rectTransform.DOAnchorPos(new Vector2(20f, 120f), 0.2f).AsyncWaitForCompletion();
             Audio2dService.Instance.PlayAudio(EAudioEvent.ShuffleSfx);
             for (int i = 0; i < 4; i++)
             {

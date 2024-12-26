@@ -274,7 +274,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
             
             await moveToHandSequence.AsyncWaitForCompletion();
-            
+            Audio2dService.Instance.PlayAudio(EAudioEvent.GoalSfx);
             cardSlot.AddCard(cardUi);
         }
 
@@ -383,7 +383,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             var moveTasks = new List<UniTask>();
             
             int count = 0;
-            while(_handCards.TryGetFirstNotEmptySlot(out var cardUiSlot))
+            while(_handCards.TryGetLastNotEmptySlot(out var cardUiSlot))
             {
                 var cardUi = cardUiSlot.CurrentCardUi;
                 cardUiSlot.RemoveCard();
@@ -392,16 +392,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             };
             
             return UniTask.WhenAll(moveTasks);
-
-            async UniTask MoveCardFromMagicalPortalToDeck(CardUi cardUi, int delay)
-            {
-                if (delay > 0)
-                {
-                    await UniTask.Delay(delay);
-                }
-                await MoveCardToDeck(cardUi);
-                CardUiFactory.Instance.RemoveCardUi(cardUi.Card);
-            }
         }
 
         public UniTask RemoveGoalCard(GoalCardUi cardUi)
