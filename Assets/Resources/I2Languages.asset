@@ -49,76 +49,12 @@ MonoBehaviour:
       - "\xA1Lo has bordado!"
       Flags: 0000
       Languages_Touch: []
-    - Term: Game/Back
+    - Term: GameOptions/Text
       TermType: 0
       Description: 
       Languages:
-      - Back
-      - Volver
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/BackMenu
-      TermType: 0
-      Description: 
-      Languages:
-      - Back to menu
-      - "Volver al men\xFA"
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Busted
-      TermType: 0
-      Description: 
-      Languages:
-      - Busted!
-      - "\xA1Pillada!"
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/DiscardHand
-      TermType: 0
-      Description: 
-      Languages:
-      - Discard hand
-      - Descarta mano
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Goal
-      TermType: 0
-      Description: 
-      Languages:
-      - Bro
-      - Colega
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Trick
-      TermType: 0
-      Description: 
-      Languages:
-      - Trick
-      - Truco
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Title/Start
-      TermType: 0
-      Description: 
-      Languages:
-      - Start
-      - Empezar
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Title/Subtitle
-      TermType: 0
-      Description: 
-      Languages:
-      - The card game
-      - El juego de cartas
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Title/Tutorial
-      TermType: 0
-      Description: 
-      Languages:
-      - Tutorial
-      - Tutorial
+      - Do you want to abandon the game?
+      - "\xBFQuieres abandonar la partida?"
       Flags: 0000
       Languages_Touch: []
     - Term: Tutorial/ActionCards
@@ -148,7 +84,9 @@ MonoBehaviour:
 
 
         For example, now you can''t
-        do another <style="PrankIcon"> Mischief of any color: only <style="GoodieIcon">
+        do another <style="PrankIcon"> Mischief of any color:
+
+        only <style="GoodieIcon">
         Favors or <style="TrickIcon"> Tricks.
 
         Adds a <style="Kitchen"> <style="GoodieIcon">
@@ -156,7 +94,7 @@ MonoBehaviour:
       - "Solo hay una regla: la carta de Acci\xF3n que juegues no puede tener el
         mismo s\xEDmbolo que la \xFAltima carta que hayas jugado en la Lista.\n\nPor
         ejemplo, ahora no puedes hacer otra <style=\"PrankIcon\"> Travesura de ning\xFAn
-        color: solo <style=\"GoodieIcon\"> Favores o <style=\"TrickIcon\"> Trucos.\nA\xF1ade
+        color:\nsolo <style=\"GoodieIcon\"> Favores o <style=\"TrickIcon\"> Trucos.\nA\xF1ade
         un <style=\"Kitchen\"><style=\"GoodieIcon\"></style> Favor Rojo</style> a
         la Lista de Acciones."
       Flags: 0000
@@ -165,9 +103,11 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - This is your Action List. It's where you play your Action cards to find the
-        Jam-Bros and have a good time.
-      - "Esta es tu Lista de Acciones. Es donde juegas tus cartas de Acci\xF3n para
+      - 'This is your Action List.
+
+        It''s where you play your Action cards
+        to find the Jam-Bros and have a good time.'
+      - "Esta es tu Lista de Acciones.\nEs donde juegas tus cartas de Acci\xF3n para
         encontrar a los Merme-Colegas y pas\xE1rtelo bien."
       Flags: 0000
       Languages_Touch: []
@@ -193,9 +133,11 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - This is the Deck. It's where you draw cards from. If you run out of cards
-        in your deck it will have been daylight and you will lose the game!
-      - "Este es el Mazo. Es de donde robas las cartas. \xA1Si te quedas sin cartas
+      - 'This is the Deck. It''s where you draw cards from.
+
+        If you run out
+        of cards in your deck it will have been daylight and you will lose the game!'
+      - "Este es el Mazo. Es de donde robas las cartas.\n\xA1Si te quedas sin cartas
         en el mazo se habr\xE1 hecho de d\xEDa y perder\xE1s la partida!"
       Flags: 0000
       Languages_Touch: []
@@ -203,30 +145,40 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - This is the Discard Pile. It's where you discard the cards you don't want
-        to play.
-      - Esta es la Pila de Descartes. Es donde descartas las cartas que no quieres
-        jugar.
+      - 'This is the Discard Pile.
+
+        It''s where you discard the cards you
+        don''t want to play.'
+      - 'Esta es la Pila de Descartes.
+
+        Es donde descartas las cartas que
+        no quieres jugar.'
       Flags: 0000
       Languages_Touch: []
     - Term: Tutorial/Draw
       TermType: 0
       Description: 
       Languages:
-      - Fantastic! Cards will be drawn automatically.
-      - "\xA1Fantabuloso! Las cartas se robar\xE1n autom\xE1ticamente."
+      - 'Fantastic!
+
+        Cards will be drawn automatically.'
+      - "\xA1Fantabuloso!\nLas cartas se robar\xE1n autom\xE1ticamente."
       Flags: 0000
       Languages_Touch: []
     - Term: Tutorial/EndTutorial
       TermType: 0
       Description: 
       Languages:
-      - 'This is the basic thing you need to know to start playing.
+      - 'I can tell you nailed it!
 
-        You
-        will have to discover the rest!'
-      - "Hasta aqu\xED lo b\xE1sico que necesitas saber para empezar a jugar.\n\xA1El
-        resto deber\xE1s descubrirlo t\xFA!"
+
+        This is the basic thing you need to
+        know to start playing.
+
+        You will have to discover the rest!'
+      - "\xA1Veo que lo has entendido perfectamente!\n\nHasta aqu\xED lo b\xE1sico
+        que necesitas saber para empezar a jugar.\n\xA1El resto deber\xE1s descubrirlo
+        t\xFA!"
       Flags: 0000
       Languages_Touch: []
     - Term: Tutorial/FirstDraw
@@ -267,12 +219,12 @@ MonoBehaviour:
       - "There are two ways to find a Jam-Bro:\n\u2022 Place 3 consecutive cards
         of the same color on the List.\n\u2022 Have a <style=TrickIcon> Trick card
         in your hand of the corresponding color when you draw a Merme-Colleague.\n\nYou
-        now have 3 cards of the same color in your hand. Start by doing a <style=\"Kitchen\">
+        now have 3 cards of the same color in your hand.\nStart by doing a <style=\"Kitchen\">
         <style=\"PrankIcon\"> </style> Kitchen Prank</style> ."
       - "Hay dos maneras de encontrar a un Merme-Colega:\n\u2022 Colocar 3 cartas
         consecutivas del mismo color en la Lista.\n\u2022 Tener una carta de <style=TrickIcon>
         Truco en la mano del color correspondiente cuando saques un Merme-Colega.\n\nAhora
-        tienes 3 cartas del mismo color en tu mano. Empieza haciendo una <style=\"Kitchen\"><style=\"PrankIcon\"></style>
+        tienes 3 cartas del mismo color en tu mano.\nEmpieza haciendo una <style=\"Kitchen\"><style=\"PrankIcon\"></style>
         Travesura en la Cocina</style>."
       Flags: 0000
       Languages_Touch: []
@@ -280,9 +232,11 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - These are the 8 Jam-Bros. Find them all before the night ends to win the
-        game!
-      - "Estos son los 8 Merme-Colegas. \xA1Encu\xE9ntralos a todos antes de que
+      - 'These are the 8 Jam-Bros.
+
+        Find them all before the night ends to
+        win the game!'
+      - "Estos son los 8 Merme-Colegas.\n\xA1Encu\xE9ntralos a todos antes de que
         acabe la noche para ganar la partida!"
       Flags: 0000
       Languages_Touch: []
@@ -347,9 +301,11 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - 'Yipi kai yeei! Look for another Jam-Bro in the <style=LivingRoom> Living
-        Room (green)</style> '
-      - "\xA1Yipi kai yeei! Busca otro Merme-Colega en el <style=LivingRoom>Sal\xF3n
+      - 'Yipi kai yeei!
+
+        Look for another Jam-Bro in the <style=LivingRoom>
+        Living Room (green)</style> '
+      - "\xA1Yipi kai yeei!\nBusca otro Merme-Colega en el <style=LivingRoom>Sal\xF3n
         (verde)</style>"
       Flags: 0000
       Languages_Touch: []
@@ -365,7 +321,7 @@ MonoBehaviour:
         las 8 Merme-Colegas de Mantecao!"
       Flags: 0000
       Languages_Touch: []
-    - Term: Tutorial/WrongSelection
+    - Term: Tutorial/FirstWrongSelection
       TermType: 0
       Description: 
       Languages:
@@ -373,6 +329,152 @@ MonoBehaviour:
         <style="GoodieIcon"> Goodies in a row.
       - "Si intentas hacer una <style=\"PrankIcon\"> Travesura no podr\xE1s hacer
         los dos <style=\"GoodieIcon\"> Favores seguidos."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/SecondWrongSelection
+      TermType: 0
+      Description: 
+      Languages:
+      - If you try to do a <style="TrickIcon"> Trick you won't be able to do both
+        <style="PrankIcon"> Pranks in a row.
+      - "Si intentas hacer un <style=\"TrickIcon\"> Truco no podr\xE1s hacer las
+        dos <style=\"PrankIcon\"> Travesuras seguidas."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Back
+      TermType: 0
+      Description: 
+      Languages:
+      - Back
+      - Volver
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/BackMenu
+      TermType: 0
+      Description: 
+      Languages:
+      - Back to menu
+      - "Volver al men\xFA"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Busted
+      TermType: 0
+      Description: 
+      Languages:
+      - Busted!
+      - "\xA1Pillada!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/DiscardHand
+      TermType: 0
+      Description: 
+      Languages:
+      - Discard hand
+      - Descarta mano
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Goal
+      TermType: 0
+      Description: 
+      Languages:
+      - Bro
+      - Colega
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Trick
+      TermType: 0
+      Description: 
+      Languages:
+      - Trick
+      - Truco
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Continue
+      TermType: 0
+      Description: 
+      Languages:
+      - Continue
+      - Continuar
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Start
+      TermType: 0
+      Description: 
+      Languages:
+      - Start
+      - Empezar
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Subtitle
+      TermType: 0
+      Description: 
+      Languages:
+      - The card game
+      - El juego de cartas
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Tutorial
+      TermType: 0
+      Description: 
+      Languages:
+      - Tutorial
+      - Tutorial
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Suit/Kitchen
+      TermType: 0
+      Description: 
+      Languages:
+      - Kitchen
+      - Cocina
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Suit/LivingRoom
+      TermType: 0
+      Description: 
+      Languages:
+      - LivingRoom
+      - "Sal\xF3n"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Suit/Bedroom
+      TermType: 0
+      Description: 
+      Languages:
+      - Bedroom
+      - Dormitorio
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Suit/Bathroom
+      TermType: 0
+      Description: 
+      Languages:
+      - Bathroom
+      - "Ba\xF1o"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Action/Prank
+      TermType: 0
+      Description: 
+      Languages:
+      - Prank
+      - Travesura
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Action/Goodie
+      TermType: 0
+      Description: 
+      Languages:
+      - Goodie
+      - Favor
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Action/Trick
+      TermType: 0
+      Description: 
+      Languages:
+      - Trick
+      - Truco
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -390,7 +492,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycby7Z1NeRJuviHmJ8k9pIw8KB0DfYgfDkoxOqMyCitRaRXHUZgdmROB2vHxHblgK0IQaEA/exec
     Google_SpreadsheetKey: 1FsQnTe9zTeUWvMgoD_2Qqc_X8iPSjDwWMEr6exWmYSc
     Google_SpreadsheetName: I2Loc Elf on the Shelf Localization
-    Google_LastUpdatedVersion: 1735278889171
+    Google_LastUpdatedVersion: 1735297595528
     Google_Password: change_this
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 1

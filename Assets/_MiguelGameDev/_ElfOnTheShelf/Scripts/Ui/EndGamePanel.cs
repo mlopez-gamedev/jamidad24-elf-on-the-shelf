@@ -23,7 +23,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             DOTween.Sequence()
                 .Append(_canvasGroup.DOFade(1f, 1f))
                 .AppendInterval(0.5f)
-                .Append(_endButton.transform.DOScale(Vector3.one, 0.3f));
+                .Append(_endButton.transform.DOScale(Vector3.one, 0.2f));
         }
 
         private void OnEndButtonClicked()

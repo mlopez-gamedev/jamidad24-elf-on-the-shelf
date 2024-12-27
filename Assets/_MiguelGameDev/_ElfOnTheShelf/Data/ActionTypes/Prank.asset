@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Prank
   m_EditorClassIdentifier: 
   _id: 0
+  _nameTerm: Action/Prank
   _icon: {fileID: 21300000, guid: f794f8c778cc84940a8273ac8cacfc79, type: 3}

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Goodie
   m_EditorClassIdentifier: 
   _id: 1
+  _nameTerm: Action/Goodie
   _icon: {fileID: 21300000, guid: 475189817181bdd4ca57d0686468ebe2, type: 3}

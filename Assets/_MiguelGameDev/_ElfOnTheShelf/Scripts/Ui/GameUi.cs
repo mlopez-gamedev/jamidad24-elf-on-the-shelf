@@ -25,6 +25,10 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         [SerializeField] private EndGameScreen _endGameScreen;
         
+        [SerializeField] private OptionsButton _optionsButton;
+        
+        [SerializeField] private OptionsPanel _optionsPanel;
+        
         private ActionCardUi _selectedActionCardUi;
         [ShowInInspector, HideInEditorMode] public ActionCardUi SelectedActionCardUi => _selectedActionCardUi;
         [ShowInInspector, HideInEditorMode] public GoalCardUi DrawnGoalCardUi { get; set; }
@@ -38,6 +42,11 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void Init(int amount)
         {
             _deckAmountUi.SetAmount(amount);
+        }
+        
+        public void SetOptionsButtonVisibility(bool isVisible)
+        {
+            _optionsButton.gameObject.SetActive(isVisible);
         }
         
         public void PlayDeckAmount(int amount)
@@ -481,6 +490,11 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void StopMagicalPortalHighlight()
         {
             _magicalPortalCards.StopHighlight();
+        }
+
+        public void ShowOptions()
+        {
+            _optionsPanel.Show();
         }
     }
 }

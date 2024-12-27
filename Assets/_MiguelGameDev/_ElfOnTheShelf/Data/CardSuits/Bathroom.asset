@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bathroom
   m_EditorClassIdentifier: 
   _id: 3
+  _nameTerm: Suit/Bathroom
   _backgroundTopColor: {r: 0.4745098, g: 0.43529412, b: 0.33333334, a: 1}
   _backgroundBottomColor: {r: 0.9490196, g: 0.9098039, b: 0.8117647, a: 1}
   _strokeColor: {r: 0.3882353, g: 0.29411766, b: 0.02745098, a: 1}

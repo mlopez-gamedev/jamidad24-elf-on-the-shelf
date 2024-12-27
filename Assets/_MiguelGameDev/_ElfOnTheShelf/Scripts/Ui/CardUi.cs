@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using LeTai.TrueShadow;
@@ -44,6 +45,15 @@ namespace MiguelGameDev.ElfOnTheShelf
         {
             Card = card;
             _picture.sprite = card.Picture;
+
+            ForceRepaint();
+        }
+
+        private async void ForceRepaint()
+        {
+            gameObject.SetActive(false);
+            await UniTask.Yield();
+            gameObject.SetActive(true);
         }
 
         [Button]
@@ -187,10 +197,6 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void CancelDrag()
         {
-            if (!_isSelected)
-            {
-                return;
-            }
             _isSelected = false;
             _endDragAction?.Invoke(this);
             

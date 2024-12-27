@@ -2,11 +2,11 @@ using MiguelGameDev.Generic.Event;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
-    public class SendCardToMagicalPortalHook : IHook
+    public class SendDrawnCardToMagicalPortalHook : IHook
     {
         public CardUi CardUi { get; }
 
-        public SendCardToMagicalPortalHook(CardUi cardUi)
+        public SendDrawnCardToMagicalPortalHook(CardUi cardUi)
         {
             CardUi = cardUi;
         }

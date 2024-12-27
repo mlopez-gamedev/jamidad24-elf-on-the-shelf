@@ -65,6 +65,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
                         _game.Player.AddCardToMagicalPortal(card);
+                        await AsyncEventDispatcherService.Instance.Dispatch(new SendDrawnCardToMagicalPortalHook(goalCardUi));
                         return true;
                     }
                     
@@ -72,6 +73,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
                         _game.Player.AddCardToMagicalPortal(card);
+                        await AsyncEventDispatcherService.Instance.Dispatch(new SendDrawnCardToMagicalPortalHook(goalCardUi));
                         return true;
                     }
 
@@ -89,6 +91,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                     {
                         await _gameUi.MoveCardToMagicalPortal(card);
                         _game.Player.AddCardToMagicalPortal(card);
+                        await AsyncEventDispatcherService.Instance.Dispatch(new SendDrawnCardToMagicalPortalHook(bustCardUi));
                         return true;
                     }
                     

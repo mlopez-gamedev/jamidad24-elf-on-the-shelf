@@ -53,7 +53,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             var signalDispatcher = EventDispatcherService.Instance;
             var hookDispatcher = AsyncEventDispatcherService.Instance;
             
-            
             hookDispatcher.Subscribe<StartGameHook>(OnStartGame);
             hookDispatcher.Subscribe<BeforeHandDrawHook>(OnBeforeHandDraw);
             hookDispatcher.Subscribe<AfterHandDrawnHook>(OnAfterHandDrawn);
@@ -68,7 +67,9 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             signalDispatcher.Subscribe<BustedSignal>(OnBusted);
             hookDispatcher.Subscribe<DrawCardHook>(OnDrawCard);
-            hookDispatcher.Subscribe<SendCardToMagicalPortalHook>(OnSendCardToMagicalPortal);
+            hookDispatcher.Subscribe<SendDrawnCardToMagicalPortalHook>(OnSendCardToMagicalPortal);
+            
+            GameUi.Instance.SetOptionsButtonVisibility(false);
         }
 
         private async Task OnStartGame(IHook _)
@@ -132,9 +133,10 @@ namespace MiguelGameDev.ElfOnTheShelf
                 await _tutorialUi.ShowDialogue(_goalShuffleTerm, ETutorialPosition.Middle);
             }
             
-            else if (_handDrawnCount == 6)
+            else if (_handDrawnCount == 9)
             {
                 await _tutorialUi.ShowDialogue(_endTutorialTerm, ETutorialPosition.Middle);
+                EndTutorial();
             }
 
             ++_handDrawnCount;
@@ -154,7 +156,7 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
 
-            if (_cardsPlayedCount == 6)
+            if (_handDrawnCount == 6)
             {
                 await _tutorialUi.ShowDialogue(_secondGoalCompletedTerm, ETutorialPosition.Middle);
             }
@@ -172,25 +174,25 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         private void OnStartTurn(ISignal signal)
         {
-            if (_cardsPlayedCount + _cardsDiscardedCount == 0)
+            if (_cardsPlayedCount == 0)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.Kitchen, EActionType.Prank);
                 return;
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 1)
+            if (_cardsPlayedCount == 1)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.Kitchen, EActionType.Goodie);
                 return;
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 2)
+            if (_cardsPlayedCount == 2)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.Kitchen, EActionType.Prank);
                 return;
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 3)
+            if (_cardsPlayedCount == 3)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.Bathroom);
                 if (_wrongSelection)
@@ -201,54 +203,68 @@ namespace MiguelGameDev.ElfOnTheShelf
                 return;
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 4)
+            if (_cardsPlayedCount == 4)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.Bathroom);
                 return;
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 5)
+            if (_cardsPlayedCount == 5)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.Bathroom);
                 return;
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 6)
+            if (_cardsPlayedCount == 6)
             {
                 GameUi.Instance.EnableAndHighlightCards(ECardSuit.LivingRoom);
                 if (_wrongSelection)
                 {
-                    _tutorialUi.ShowDialogue(_secondGoalCompletedTerm, ETutorialPosition.Middle);
+                    _tutorialUi.ShowDialogue(_secondWrongSelectionTerm, ETutorialPosition.Middle);
                     _wrongSelection = false;
                 }
                 return;
             }
+            
+            if (_cardsPlayedCount == 7)
+            {
+                GameUi.Instance.EnableAndHighlightCards(ECardSuit.LivingRoom);
+                return;
+            }
+            
+            if (_cardsPlayedCount == 8)
+            {
+                GameUi.Instance.EnableAndHighlightCards(ECardSuit.LivingRoom);
+                return;
+            }
         }
 
-        private void OnCardSelected(ISignal signal)
+        private async void OnCardSelected(ISignal signal)
         {
-            if (_cardsPlayedCount + _cardsDiscardedCount < 9)
+            if (_cardsPlayedCount < 9)
             {
                 GameUi.Instance.SetEnableDropOnDiscardPilePanel(false);
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 3)
+            if (_cardsPlayedCount == 3)
             {
                 var cardSelectedSignal = (CardSelectedSignal)signal;
                 var actionCardUi = (ActionCardUi)cardSelectedSignal.CardUi;
                 if (actionCardUi.ActionCard.ActionType.Id == EActionType.Prank)
                 {
+                    await UniTask.Yield();
                     actionCardUi.CancelDrag();
                     _wrongSelection = true;
                 }
             }
             
-            if (_cardsPlayedCount + _cardsDiscardedCount == 6)
+            if (_cardsPlayedCount == 6)
             {
                 var cardSelectedSignal = (CardSelectedSignal)signal;
                 var actionCardUi = (ActionCardUi)cardSelectedSignal.CardUi;
                 if (actionCardUi.ActionCard.ActionType.Id == EActionType.Trick)
                 {
+                    await UniTask.Yield();
                     actionCardUi.CancelDrag();
                     _wrongSelection = true;
                 }
@@ -300,7 +316,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         private async Task OnSendCardToMagicalPortal(IHook hook)
         {
-            var drawCardHook = (SendCardToMagicalPortalHook)hook;
+            var drawCardHook = (SendDrawnCardToMagicalPortalHook)hook;
             if (drawCardHook.CardUi.Card.Type == ECardType.Goal)
             {
                 if (_magicalPortalCount == 0)
@@ -314,5 +330,28 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
         }
 
+        private void EndTutorial()
+        {
+            var signalDispatcher = EventDispatcherService.Instance;
+            var hookDispatcher = AsyncEventDispatcherService.Instance;
+            
+            hookDispatcher.Unsubscribe<StartGameHook>(OnStartGame);
+            hookDispatcher.Unsubscribe<BeforeHandDrawHook>(OnBeforeHandDraw);
+            hookDispatcher.Unsubscribe<AfterHandDrawnHook>(OnAfterHandDrawn);
+            
+            signalDispatcher.Unsubscribe<CardPlayedSignal>(OnCardPlayed);
+            signalDispatcher.Unsubscribe<CardDiscardedSignal>(OnCardDiscarded);
+            
+            signalDispatcher.Unsubscribe<StartTurnSignal>(OnStartTurn);
+            signalDispatcher.Unsubscribe<CardSelectedSignal>(OnCardSelected);
+            
+            hookDispatcher.Unsubscribe<ShuffleDeckSignal>(OnShuffleDeck);
+            
+            signalDispatcher.Unsubscribe<BustedSignal>(OnBusted);
+            hookDispatcher.Unsubscribe<DrawCardHook>(OnDrawCard);
+            hookDispatcher.Unsubscribe<SendDrawnCardToMagicalPortalHook>(OnSendCardToMagicalPortal);
+            
+            GameUi.Instance.SetOptionsButtonVisibility(true);
+        }
     }
 }
