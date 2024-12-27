@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
@@ -22,12 +23,13 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         [SerializeField] private PayGoalPanel _payGoalPanel;
         [SerializeField] private PayBustPanel _payBustPanel;
+        [SerializeField] private DiscardPilePopup _discardPilePopup;
         
         [SerializeField] private EndGameScreen _endGameScreen;
         
         [SerializeField] private OptionsButton _optionsButton;
         
-        [SerializeField] private OptionsPanel _optionsPanel;
+        [FormerlySerializedAs("_optionsPanel")] [SerializeField] private OptionsPopup optionsPopup;
         
         private ActionCardUi _selectedActionCardUi;
         [ShowInInspector, HideInEditorMode] public ActionCardUi SelectedActionCardUi => _selectedActionCardUi;
@@ -494,7 +496,12 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void ShowOptions()
         {
-            _optionsPanel.Show();
+            optionsPopup.Show();
+        }
+
+        public void ShowDiscardPilePopup()
+        {
+            _discardPilePopup.Show();
         }
     }
 }

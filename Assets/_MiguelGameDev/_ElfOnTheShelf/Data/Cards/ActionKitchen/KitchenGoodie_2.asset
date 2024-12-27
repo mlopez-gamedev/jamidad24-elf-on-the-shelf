@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64930dd90c3445afad235b11c3959642, type: 3}
   m_Name: KitchenGoodie_2
   m_EditorClassIdentifier: 
-  _picture: {fileID: 21300000, guid: 09baed9fd168db949ae894abc30059ce, type: 3}
+  _picture: {fileID: 21300000, guid: a436158f78990704db6eca4db01525cc, type: 3}
   _suit: {fileID: 11400000, guid: a043c3432a8e71b4c92a7a5b5137b620, type: 2}
   _actionType: {fileID: 11400000, guid: caa8e22f43b8b664cb3669f16b571f1c, type: 2}

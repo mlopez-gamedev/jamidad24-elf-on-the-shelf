@@ -3,13 +3,13 @@ using UnityEngine.EventSystems;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
-    public class DiscardPilePanel : MonoBehaviour, IDropHandler
+    public class DiscardPilePanel : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
         public readonly Vector3 CardScale = Vector3.one; //new Vector3(0.8f, 0.8f, 0.8f);
         
         [SerializeField] private RectTransform _cardContainer;
         [SerializeField] private Highlight _highlight;
-
+        
         private bool _canDrop;
         
         public void SetEnableDrop(bool enable)
@@ -69,6 +69,11 @@ namespace MiguelGameDev.ElfOnTheShelf
             {
                 GameUi.Instance.PlayerDiscardCard(cardUi);
             }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            GameUi.Instance.ShowDiscardPilePopup();
         }
     }
 }

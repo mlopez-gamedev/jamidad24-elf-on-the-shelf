@@ -15,7 +15,6 @@ namespace MiguelGameDev.ElfOnTheShelf
             _strokeImage.color = card.Suit.StrokeColor;
             _background.CurrentSpriteSettings.PrimaryColor = card.Suit.BackgroundTopColor;
             _background.CurrentSpriteSettings.SecondaryColor = card.Suit.BackgroundBottomColor;
-            _picture.color = card.Suit.StrokeColor;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         [ShowInInspector] private readonly List<ActionCard> _hand = new List<ActionCard>();
 
         [ShowInInspector]
-        private readonly Dictionary<EActionType, List<Card>> _discardPile = new Dictionary<EActionType, List<Card>>();
+        private readonly Dictionary<ECardSuit, List<ActionCard>> _discardPile = new Dictionary<ECardSuit, List<ActionCard>>();
 
         [ShowInInspector] private readonly List<BustCard> _discardBustCards = new List<BustCard>();
 
@@ -241,12 +241,12 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void AddActionCardToDiscardPile(ActionCard card)
         {
-            if (!_discardPile.ContainsKey(card.ActionType.Id))
+            if (!_discardPile.ContainsKey(card.Suit.Id))
             {
-                _discardPile.Add(card.ActionType.Id, new List<Card>());
+                _discardPile.Add(card.Suit.Id, new List<ActionCard>());
             }
 
-            _discardPile[card.ActionType.Id].Add(card);
+            _discardPile[card.Suit.Id].Add(card);
         }
 
         public void AddBustCardToDiscardPile(BustCard card)
@@ -303,6 +303,43 @@ namespace MiguelGameDev.ElfOnTheShelf
         {
             _deck.Clear();
             _deck.AddRange(cards);
+        }
+
+        public CardsAmount CountDiscardedCards(ECardSuit cardSuit)
+        {
+            int pranks = 0;
+            int goodies = 0;
+            int tricks = 0;
+
+            if (!_discardPile.ContainsKey(cardSuit))
+            {
+                return new CardsAmount(0, 0, 0);
+            }
+
+            foreach (var card in _discardPile[cardSuit])
+            {
+                switch (card.ActionType.Id)
+                {
+                    case EActionType.Prank:
+                        ++pranks;
+                        break;
+                    
+                    case EActionType.Goodie:
+                        ++goodies;
+                        break;
+                    
+                    case EActionType.Trick:
+                        ++tricks;
+                        break;
+                }
+            }
+            
+            return new CardsAmount(pranks, goodies, tricks);
+        }
+
+        public int CountBustCards()
+        {
+            return _discardBustCards.Count;
         }
     }
 }

@@ -1,35 +1,51 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
-    public class OptionsPanel : MonoBehaviour
+    public class DiscardPilePopup : MonoBehaviour
     {
         [SerializeField] CanvasGroup _canvasGroup;
         [SerializeField] RectTransform _panel;
-        [SerializeField] Button _endButton;
-        [SerializeField] Button _continueButton;
+        [SerializeField] Button _backButton;
+
+        [SerializeField] private CardSuiteRow _bedroomCards;
+        [SerializeField] private CardSuiteRow _livingRoomCards;
+        [SerializeField] private CardSuiteRow _kitchenCards;
+        [SerializeField] private CardSuiteRow _bathroomCards;
+        
+        [SerializeField] private TMP_Text _bustCardsText;
         
         private void Start()
         {
-            _endButton.onClick.AddListener(OnEndButtonClicked);
-            _continueButton.onClick.AddListener(OnContinueButtonClicked);
+            _backButton.onClick.AddListener(OnContinueButtonClicked);
         }
         public void Show()
         {
+            _bedroomCards.Setup(
+                Game.Instance.Player.CountDiscardedCards(ECardSuit.Bedroom));
+            _livingRoomCards.Setup(
+                Game.Instance.Player.CountDiscardedCards(ECardSuit.LivingRoom));
+            _kitchenCards.Setup(
+                Game.Instance.Player.CountDiscardedCards(ECardSuit.Kitchen));
+            _bathroomCards.Setup(
+                Game.Instance.Player.CountDiscardedCards(ECardSuit.Bathroom));
+
+            _bustCardsText.text = Game.Instance.Player.CountBustCards().ToString();
+            
             _panel.localScale = Vector3.zero;
-            _continueButton.transform.localScale = Vector3.zero;
-            _endButton.transform.localScale = Vector3.zero;
+            _backButton.transform.localScale = Vector3.zero;
             _canvasGroup.alpha = 0;
             _canvasGroup.gameObject.SetActive(true);
 
             DOTween.Sequence()
                 .Append(_canvasGroup.DOFade(1f, 0.2f))
                 .Join(_panel.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack))
-                .Append(_continueButton.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack))
-                .Append(_endButton.transform.DOScale(Vector3.one, 0.2f)).SetEase(Ease.OutBack);
+                .Append(_backButton.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack));
         }
 
         private void OnEndButtonClicked()
@@ -49,8 +65,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             DOTween.Sequence()
                 .Append(_canvasGroup.DOFade(0, 0.2f))
                 .Join(_panel.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutBack))
-                .Join(_continueButton.transform.DOScale(Vector3.zero, 0.2f))
-                .Join(_endButton.transform.DOScale(Vector3.zero, 0.2f))
+                .Join(_backButton.transform.DOScale(Vector3.zero, 0.2f))
                 .OnComplete(EndHide);
 
             void EndHide()

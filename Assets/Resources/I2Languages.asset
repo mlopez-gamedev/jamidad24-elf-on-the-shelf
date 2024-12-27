@@ -477,6 +477,14 @@ MonoBehaviour:
       - Truco
       Flags: 0000
       Languages_Touch: []
+    - Term: Game/DiscardPile
+      TermType: 0
+      Description: 
+      Languages:
+      - Discard Pile
+      - Pila de Descartes
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
