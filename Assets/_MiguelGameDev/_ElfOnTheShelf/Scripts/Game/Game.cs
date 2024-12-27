@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using MiguelGameDev.Generic.Event;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -33,6 +34,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             _player.InitializeDeck();
             _gameUi.Init(_player.DeckCardsLeft());
             await UniTask.Delay(1000);
+            await AsyncEventDispatcherService.Instance.Dispatch(new StartGameHook());
             _turnStateMachine.Init();
         }
 

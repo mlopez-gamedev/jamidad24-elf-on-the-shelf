@@ -21,16 +21,14 @@ namespace MiguelGameDev.ElfOnTheShelf
             throw new ArgumentException($"All goal card suit for {cardSuit} are not empty");
         }
         
-        public void SetHighlight(bool enable)
+        public void PlayHighlight()
         {
-            if (enable)
-            {
-                _highlight.Play();
-            }
-            else
-            {
-                _highlight.Stop();
-            }
+            _highlight.Play();
+        }
+        
+        public void StopHighlight()
+        {
+            _highlight.Stop();
         }
 
         public void RemoveGoalCard(GoalCardUi cardUi, Transform newParent = null)

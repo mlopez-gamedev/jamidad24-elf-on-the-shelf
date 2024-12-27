@@ -45,15 +45,44 @@ namespace MiguelGameDev.ElfOnTheShelf
             _deckAmountUi.PlaySetAmount(amount);
             _deckPanel.SetHidden(amount == 0);
         }
-        public void EnableAndHighlightCardSelection(bool onlyHighlightHideCards)
+        public void EnableAndHighlightCardSelection()
         {
             SetEnableCardSelection(true);
-            // Highlight
         }
         
+        public void EnableAndHighlightCards(ECardSuit suit, EActionType actionType)
+        {
+            _handCards.SetEnableCards(suit, actionType);
+        }
+        
+        public void EnableAndHighlightCards(ECardSuit suit)
+        {
+            _handCards.SetEnableCards(suit);
+        }
+
         public void SetEnableCardSelection(bool enable)
         {
             _handCards.SetEnableCardSelection(enable);
+        }
+
+        public void PlayHandHighlight()
+        {
+            _handCards.PlayHighlightOnAllCards();
+        }
+        
+        public void StopHandHighlight()
+        {
+            _handCards.StopHighlightOnAllCards();
+        }
+        
+        public void PlayDeckHighlight()
+        {
+            _deckPanel.PlayHighlight();
+        }
+        
+        public void StopDeckHighlight()
+        {
+            _deckPanel.StopHighlight();
         }
         
         public void SetEnableDropOnRunPanel(bool enable)
@@ -61,38 +90,68 @@ namespace MiguelGameDev.ElfOnTheShelf
             _runPanel.SetEnableDrop(enable);
         }
         
+        public void PlayActionsRunHighlight()
+        {
+            _runPanel.PlayHighlight();
+        }
+        
+        public void StopActionsRunHighlight()
+        {
+            _runPanel.StopHighlight();
+        }
+        
+        public void PlayDiscardPileHighlight()
+        {
+            _discardPilePanel.PlayHighlight();
+        }
+        
+        public void StopDiscardPileHighlight()
+        {
+            _discardPilePanel.StopHighlight();
+        }
+        
+        public void PlayGoalAreaHighlight()
+        {
+            _goalCardsPanel.PlayHighlight();
+        }
+        
+        public void StopGoalAreaHighlight()
+        {
+            _goalCardsPanel.StopHighlight();
+        }
+        
         public void SetEnableDropOnDiscardPilePanel(bool enable)
         {
             _discardPilePanel.SetEnableDrop(enable);
         }
         
-        public void SetEnableDeck(bool enable)
-        {
-            // TODO
-            // always highlight on off
-        }
-        
-        public void SetHighlightRun(bool highlight)
-        {
-            // TODO
-            // Highlight
-        }
-        
-        public void SetEnableGoals(bool enable)
-        {
-            // TODO
-            // always highlight
-        }
-        
         public void DisableAll()
         {
             SetEnableCardSelection(false);
-            SetEnableDeck(false);
-            SetEnableGoals(false);
             SetEnableDropOnRunPanel(false);
             SetEnableDropOnDiscardPilePanel(false);
         }
 
+        public void DisablePayBustWithHand()
+        {
+            _payBustPanel.DisablePayBustWithHand();
+        }
+        
+        public void DisablePayBustWithTrick()
+        {
+            _payBustPanel.DisablePayBustWithTrick();
+        }
+        
+        public void DisablePayBustWithDeck()
+        {
+            _payBustPanel.DisablePayBustWithDeck();
+        }
+        
+        public void DisablePayBustWithGoal()
+        {
+            _payBustPanel.DisablePayBustWithGoal();
+        }
+        
         public void ShowCardOrderPanel()
         {
             // TODO
@@ -412,6 +471,16 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void EndGame(bool isWin)
         {
             _endGameScreen.Show(isWin);
+        }
+
+        public void PlayMagicalPortalHighlight()
+        {
+            _magicalPortalCards.PlayHighlight();
+        }
+        
+        public void StopMagicalPortalHighlight()
+        {
+            _magicalPortalCards.StopHighlight();
         }
     }
 }

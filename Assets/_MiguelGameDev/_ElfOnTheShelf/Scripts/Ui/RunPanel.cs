@@ -39,6 +39,16 @@ namespace MiguelGameDev.ElfOnTheShelf
             _highlight.Stop();
         }
         
+        public void PlayHighlight()
+        {
+            _highlight.Play();
+        }
+        
+        public void StopHighlight()
+        {
+            _highlight.Stop();
+        }
+        
         public void OnDrop(PointerEventData eventData)
         {
             if (!_canDrop)

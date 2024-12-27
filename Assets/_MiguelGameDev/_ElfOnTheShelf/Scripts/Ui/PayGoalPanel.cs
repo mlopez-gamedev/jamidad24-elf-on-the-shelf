@@ -71,14 +71,14 @@ namespace MiguelGameDev.ElfOnTheShelf
             void OnBeginDrag(CardUi cardUi)
             {
                 _magicalPortal.PlayHighlight();
-                _trickCardUi.PlayHighlight();
+                _trickCardUi.EnableInteraction();
                 cardUi.DisableSelection();
             }
             
             void OnEndDrag(CardUi cardUi)
             {
                 _magicalPortal.StopHighlight();
-                _trickCardUi.StopHighlight();
+                _trickCardUi.EnableInteraction();
                 DOCenterAtSlot(cardUi.RectTransform, 0.1f)
                     .OnComplete(Activate);
             }
@@ -93,7 +93,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public async void Pay()
         {
-            _trickCardUi.StopHighlight();
+            _trickCardUi.EnableInteraction();
             _magicalPortal.StopHighlight();
             _goalCardUi.StopSelection();
             _magicalPortal.transform.SetParent(_magicalPortalSlot, true);
@@ -118,7 +118,7 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public async void SendToMagicalPortal()
         {
-            _trickCardUi.StopHighlight();
+            _trickCardUi.EnableInteraction();
             _magicalPortal.StopHighlight();
             _goalCardUi.StopSelection();
             _background.DOFade(1, 0.2f);

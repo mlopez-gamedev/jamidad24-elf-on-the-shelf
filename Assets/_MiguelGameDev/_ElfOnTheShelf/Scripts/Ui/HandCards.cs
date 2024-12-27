@@ -124,5 +124,47 @@ namespace MiguelGameDev.ElfOnTheShelf
                 cardSlot.DisableCardSelection();
             }
         }
+
+        public void SetEnableCards(ECardSuit suit, EActionType actionType)
+        {
+            foreach (var cardSlot in _cardSlots)
+            {
+                if (cardSlot.IsEmpty)
+                {
+                    continue;
+                }
+                
+                var actionCard = (ActionCard)cardSlot.CurrentCardUi.Card;
+                if (actionCard.Suit.Id == suit && actionCard.ActionType.Id == actionType)
+                {
+                    cardSlot.EnableCardSelection();    
+                }
+                else
+                {
+                    cardSlot.DisableCardSelection();
+                }
+            }
+        }
+        
+        public void SetEnableCards(ECardSuit suit)
+        {
+            foreach (var cardSlot in _cardSlots)
+            {
+                if (cardSlot.IsEmpty)
+                {
+                    continue;
+                }
+                
+                var actionCard = (ActionCard)cardSlot.CurrentCardUi.Card;
+                if (actionCard.Suit.Id == suit)
+                {
+                    cardSlot.EnableCardSelection();    
+                }
+                else
+                {
+                    cardSlot.DisableCardSelection();
+                }
+            }
+        }
     }
 }

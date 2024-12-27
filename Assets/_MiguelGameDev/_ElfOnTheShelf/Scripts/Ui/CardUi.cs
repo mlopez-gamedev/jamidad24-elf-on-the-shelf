@@ -95,24 +95,34 @@ namespace MiguelGameDev.ElfOnTheShelf
             _beginDragAction = beginDragAction;
             _endDragAction = endDragAction;
             
-            PlayHighlight();
+            EnableInteraction();
         }
         
         public void DisableSelection()
         {
             _canSelect = false;
-            StopHighlight();
+            DisableInteraction();
         }
 
-        public void PlayHighlight()
+        public void EnableInteraction()
         {
             _interactableBackground.raycastTarget = true;
             _highlight.Play();
         }
         
-        public void StopHighlight()
+        public void DisableInteraction()
         {
             _interactableBackground.raycastTarget = false;
+            _highlight.Stop();
+        }
+        
+        public void PlayHighlight()
+        {
+            _highlight.Play();
+        }
+        
+        public void StopHighlight()
+        {
             _highlight.Stop();
         }
 
@@ -141,7 +151,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             HideShadow();
         }
         
-        public void OnBeginDrag(PointerEventData eventData)
+        public void OnBeginDrag(PointerEventData _)
         {
             if (!_canSelect)
             {
@@ -150,10 +160,10 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             _beginDragAction?.Invoke(this);
             _isSelected = true;
-            StopHighlight();
+            DisableInteraction();
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public void OnEndDrag(PointerEventData _)
         {
             if (!_isSelected)
             {
@@ -174,19 +184,34 @@ namespace MiguelGameDev.ElfOnTheShelf
             }
             _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
         }
+
+        public void CancelDrag()
+        {
+            if (!_isSelected)
+            {
+                return;
+            }
+            _isSelected = false;
+            _endDragAction?.Invoke(this);
+            
+            _beginDragAction = null;
+            _endDragAction = null;
+            
+            _canSelect = false;
+        }
         
         public void EnableClick(Action<CardUi> onClickAction)
         {
             _isClickEnabled = true;
             _onClickAction = onClickAction;
-            PlayHighlight();
+            EnableInteraction();
         }
 
         public void DisableClick()
         {
             _isClickEnabled = false;
             _onClickAction = null;
-            StopHighlight();
+            DisableInteraction();
         }
 
         public void OnPointerClick(PointerEventData _)

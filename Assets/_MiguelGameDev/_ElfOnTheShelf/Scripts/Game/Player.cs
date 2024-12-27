@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MiguelGameDev.Generic.Event;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -143,6 +144,9 @@ namespace MiguelGameDev.ElfOnTheShelf
         {
             _hand.Remove(card);
             _run.Push(card);
+            
+            EventDispatcherService.Instance.Dispatch(new CardPlayedSignal());
+            
             if (_goalRun.Count == 0)
             {
                 _goalRun.Add(card);
@@ -190,9 +194,9 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         public void DiscardCard(ActionCard card)
         {
-            Debug.Log($"Discard card: {card.name}");
             _hand.Remove(card);
             AddCardToDiscardPile(card);
+            EventDispatcherService.Instance.Dispatch(new CardDiscardedSignal());
         }
 
         public void DiscardHand()
@@ -282,6 +286,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void ShuffleDeck()
         {
             _deck.Shuffle();
+            
         }
 
         public void AddCardToDeck(Card card)
@@ -292,6 +297,12 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void RemoveGoal(GoalCard goalCard)
         {
             _completedGoalCards.Remove(goalCard);
+        }
+
+        public void OverrideDeck(Card[] cards)
+        {
+            _deck.Clear();
+            _deck.AddRange(cards);
         }
     }
 }

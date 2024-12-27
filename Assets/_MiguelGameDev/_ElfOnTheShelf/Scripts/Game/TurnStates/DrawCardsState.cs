@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using MiguelGameDev.Generic.Event;
 using UnityEngine;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -20,6 +21,8 @@ namespace MiguelGameDev.ElfOnTheShelf
 
         private async void DrawCards()
         {
+            await AsyncEventDispatcherService.Instance.Dispatch(new BeforeHandDrawHook());
+            
             // draw cards one by one
             while (_game.Player.ShouldDrawCard())
             {
@@ -32,12 +35,15 @@ namespace MiguelGameDev.ElfOnTheShelf
                 var card = _game.Player.DrawCard();
                 _gameUi.PlayDeckAmount(_game.Player.DeckCardsLeft());
                 var cardSlot = await _gameUi.DrawCardToHand(card);
+                await AsyncEventDispatcherService.Instance.Dispatch(new DrawCardHook(cardSlot));
                 if (!await CheckDrawnCard(card, cardSlot))
                 {
                     return;
                 }
             }
 
+            await AsyncEventDispatcherService.Instance.Dispatch(new AfterHandDrawnHook());
+            
             await ReintroduceCardsFromMagicalPortal();
             
             ChangeState(ETurnState.StartTurn);
@@ -113,6 +119,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             await _gameUi.MoveCardsFromMagicalPortalToDeck();
             
             _game.Player.ShuffleDeck();
+            await AsyncEventDispatcherService.Instance.Dispatch(new ShuffleDeckSignal());
             await _gameUi.ShuffleDeck();
         }
     }

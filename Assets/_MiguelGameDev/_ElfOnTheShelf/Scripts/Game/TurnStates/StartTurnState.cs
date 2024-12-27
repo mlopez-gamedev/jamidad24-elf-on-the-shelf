@@ -1,4 +1,5 @@
 using System;
+using MiguelGameDev.Generic.Event;
 
 namespace MiguelGameDev.ElfOnTheShelf
 {
@@ -16,9 +17,11 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             _gameUi.SetEnableDropOnDiscardPilePanel(false);
             _gameUi.SetEnableDropOnRunPanel(false);
-            _gameUi.EnableAndHighlightCardSelection(true);
-
+            _gameUi.EnableAndHighlightCardSelection();
+            
             _gameUi.OnSelectCard += OnSelectCard;
+            
+            EventDispatcherService.Instance.Dispatch(new StartTurnSignal());
         }
         
         private void OnSelectCard(CardUi cardUi)

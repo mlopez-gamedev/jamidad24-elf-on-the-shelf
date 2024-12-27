@@ -55,5 +55,15 @@ namespace MiguelGameDev.ElfOnTheShelf
         {
             _cardReversed.gameObject.SetActive(!hidden);
         }
+
+        public void PlayHighlight()
+        {
+            _highlight.Play();
+        }
+        
+        public void StopHighlight()
+        {
+            _highlight.Stop();
+        }
     }
 }

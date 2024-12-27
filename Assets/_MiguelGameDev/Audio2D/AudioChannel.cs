@@ -64,6 +64,10 @@ namespace MiguelGameDev
             if (audioInfo.FadeInDuration > 0)
             {
                 await _audioSource.DOFade(0, audioInfo.FadeInDuration).AsyncWaitForCompletion();
+                if (_audioSource.clip != audioInfo.Clip)
+                {
+                    return;
+                }
             }
             _audioSource.Stop();
         }

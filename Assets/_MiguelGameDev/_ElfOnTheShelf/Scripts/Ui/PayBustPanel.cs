@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using MiguelGameDev.Generic.Event;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +34,11 @@ namespace MiguelGameDev.ElfOnTheShelf
         
         private UniTaskCompletionSource<PayBustOption> _completionSource;
 
+        public HighlightPayOptionSlot PayHandPaySlot => _payHandPaySlot;
+        public HighlightPayOptionSlot PayTrickCardSlot => _payTrickCardSlot;
+        public HighlightPayOptionSlot PayGoalSlot => _payGoalSlot;
+        public HighlightPayOptionSlot PayDeckCardsSlot => _payDeckCardsSlot;
+        
         private void Start()
         {
             _panel.gameObject.SetActive(false);
@@ -96,7 +102,9 @@ namespace MiguelGameDev.ElfOnTheShelf
         void ActivateBustCard()
         {
             _bustCardUi.EnableSelection(OnBeginDrag, OnEndDrag);
-                
+            
+            EventDispatcherService.Instance.Dispatch(new BustedSignal());
+            
             void OnBeginDrag(CardUi cardUi)
             {
                 _payHandPaySlot.PlayHighlight();
@@ -314,6 +322,26 @@ namespace MiguelGameDev.ElfOnTheShelf
             
             _panel.gameObject.SetActive(false);
             _background.gameObject.SetActive(false);
+        }
+
+        public void DisablePayBustWithHand()
+        {
+            _payHandPaySlot.SetEnable(false);
+        }
+
+        public void DisablePayBustWithTrick()
+        {
+            _payTrickCardSlot.SetEnable(false);
+        }
+
+        public void DisablePayBustWithDeck()
+        {
+            _payDeckCardsSlot.SetEnable(false);
+        }
+
+        public void DisablePayBustWithGoal()
+        {
+            _payGoalSlot.SetEnable(false);
         }
     }
 }

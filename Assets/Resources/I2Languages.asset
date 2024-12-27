@@ -17,67 +17,11 @@ MonoBehaviour:
     UserAgreesToHaveItInsideThePluginsFolder: 0
     GoogleLiveSyncIsUptoDate: 1
     mTerms:
-    - Term: Title/Subtitle
-      TermType: 0
-      Description: 
-      Languages:
-      - The card game
-      - El juego de cartas
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Title/Start
-      TermType: 0
-      Description: 
-      Languages:
-      - Start
-      - Empezar
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Back
-      TermType: 0
-      Description: 
-      Languages:
-      - Back
-      - Volver
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/DiscardHand
-      TermType: 0
-      Description: 
-      Languages:
-      - Discard hand
-      - Descarta mano
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Trick
-      TermType: 0
-      Description: 
-      Languages:
-      - Trick
-      - Truco
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Goal
-      TermType: 0
-      Description: 
-      Languages:
-      - Bro
-      - Colega
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Game/Busted
-      TermType: 0
-      Description: 
-      Languages:
-      - Busted!
-      - "\xA1Pillada!"
-      Flags: 0000
-      Languages_Touch: []
     - Term: EndGame/LoseDescription
       TermType: 0
       Description: 
       Languages:
-      - Jam Tart won't be celebrating Christmas with their friends :(
+      - Matecao Jam won't be celebrating Christmas with their friends :(
       - "Mantecao de Mermelada no celebrar\xE1 la Navidad con sus amigos :("
       Flags: 0000
       Languages_Touch: []
@@ -89,12 +33,12 @@ MonoBehaviour:
       - "\xA1Se acab\xF3 la noche!"
       Flags: 0000
       Languages_Touch: []
-    - Term: Game/BackMenu
+    - Term: EndGame/WinDescription
       TermType: 0
       Description: 
       Languages:
-      - Back to menu
-      - "Volver al men\xFA"
+      - "You\u2019ve found all of Mantecao's Jam Bros!\nHappy Holidays!"
+      - "\xA1Has encontrado a todos los Merme-Colegas de Matecao!\n\xA1Felices Fiestas!"
       Flags: 0000
       Languages_Touch: []
     - Term: EndGame/WinTitle
@@ -105,13 +49,330 @@ MonoBehaviour:
       - "\xA1Lo has bordado!"
       Flags: 0000
       Languages_Touch: []
-    - Term: EndGame/WinDescription
+    - Term: Game/Back
       TermType: 0
       Description: 
       Languages:
-      - "You\u2019ve found all of Jam Tart\u2019s friends!\nHappy Holidays!"
-      - "\xA1Has encontrado a todos los amigos de Mantecao de Mermelada! \xA1Felices
-        Fiestas!"
+      - Back
+      - Volver
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/BackMenu
+      TermType: 0
+      Description: 
+      Languages:
+      - Back to menu
+      - "Volver al men\xFA"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Busted
+      TermType: 0
+      Description: 
+      Languages:
+      - Busted!
+      - "\xA1Pillada!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/DiscardHand
+      TermType: 0
+      Description: 
+      Languages:
+      - Discard hand
+      - Descarta mano
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Goal
+      TermType: 0
+      Description: 
+      Languages:
+      - Bro
+      - Colega
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Game/Trick
+      TermType: 0
+      Description: 
+      Languages:
+      - Trick
+      - Truco
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Start
+      TermType: 0
+      Description: 
+      Languages:
+      - Start
+      - Empezar
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Subtitle
+      TermType: 0
+      Description: 
+      Languages:
+      - The card game
+      - El juego de cartas
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Title/Tutorial
+      TermType: 0
+      Description: 
+      Languages:
+      - Tutorial
+      - Tutorial
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/ActionCards
+      TermType: 0
+      Description: 
+      Languages:
+      - "These are your Action cards.\nEach Action card has a color that represents
+        a place in the house and a symbol.\n\nThe colors are:\n\u2022 <style=Bedroom>
+        Blue: bedroom</style>    \u2022 <style=Kitchen> Red: kitchen</style>    \n\u2022
+        <style=LivingRoom> Green: living room</style>    \u2022 <style=Bathroom>
+        Brown: bathroom</style> \n\nThe symbols are:\n\u2022 <style=PrankIcon> Prank   
+        \u2022 <style=GoodieIcon> Goodie    \u2022 <style=TrickIcon> Trick"
+      - "Estas son tus cartas de Acci\xF3n.\nCada carta de Acci\xF3n tiene un color
+        que representa un lugar de la casa y un s\xEDmbolo.\n\nLos colores son:\n\u2022
+        <style=Bedroom>Azul: dormitorio</style>     \u2022 <style=Kitchen>Rojo: cocina</style>\n\u2022
+        <style=LivingRoom>Verde: sal\xF3n</style>     \u2022 <style=Bathroom>Marr\xF3n:
+        ba\xF1o</style>\n\nLos s\xEDmbolos son:\n\u2022 <style=PrankIcon> Travesura   
+        \u2022 <style=GoodieIcon> Favor    \u2022 <style=TrickIcon> Truco"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/ActionsRule
+      TermType: 0
+      Description: 
+      Languages:
+      - 'There is only one rule: the Action card you play cannot have the same symbol
+        as the last card you played in the List.
+
+
+        For example, now you can''t
+        do another <style="PrankIcon"> Mischief of any color: only <style="GoodieIcon">
+        Favors or <style="TrickIcon"> Tricks.
+
+        Adds a <style="Kitchen"> <style="GoodieIcon">
+        </style> Red Favor</style> to the Action List.'
+      - "Solo hay una regla: la carta de Acci\xF3n que juegues no puede tener el
+        mismo s\xEDmbolo que la \xFAltima carta que hayas jugado en la Lista.\n\nPor
+        ejemplo, ahora no puedes hacer otra <style=\"PrankIcon\"> Travesura de ning\xFAn
+        color: solo <style=\"GoodieIcon\"> Favores o <style=\"TrickIcon\"> Trucos.\nA\xF1ade
+        un <style=\"Kitchen\"><style=\"GoodieIcon\"></style> Favor Rojo</style> a
+        la Lista de Acciones."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/ActionsRun
+      TermType: 0
+      Description: 
+      Languages:
+      - This is your Action List. It's where you play your Action cards to find the
+        Jam-Bros and have a good time.
+      - "Esta es tu Lista de Acciones. Es donde juegas tus cartas de Acci\xF3n para
+        encontrar a los Merme-Colegas y pas\xE1rtelo bien."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/Busted
+      TermType: 0
+      Description: 
+      Languages:
+      - "Oh no! You woke someone up!\n\nThere are 4 different ways to avoid getting
+        caught:\n\u2022 Discard all cards from your hand\n\u2022 Discard the first
+        5 cards of the deck\n\u2022 If you have a <style=TrickIcon> Trick in your
+        hand you can discard it.\n\u2022 If you have found a Merme-Colleague you
+        can send him to the Magic Portal.\n\nPlay a <style=\"Bedroom\"> <style=\"TrickIcon\">
+        </style> Trick in the Bedroom</style> to mislead!"
+      - "\xA1Oh no! \xA1Has despertado a alguien!\n\nHay 4 formas diferentes de evitar
+        que te pillen:\n\u2022 Descartar todas las cartas de tu mano\n\u2022 Descartar
+        las 5 primeras cartas del mazo\n\u2022 Si tienes un <style=TrickIcon> Truco
+        en la mano puedes descartarlo.\n\u2022 Si has encontrado un Merme-Colega
+        puedes mandarlo al Portal M\xE1gico.\n\n\xA1Haz un <style=\"Bedroom\"><style=\"TrickIcon\"></style>
+        Truco en el Dormitorio</style> para despistar!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/Deck
+      TermType: 0
+      Description: 
+      Languages:
+      - This is the Deck. It's where you draw cards from. If you run out of cards
+        in your deck it will have been daylight and you will lose the game!
+      - "Este es el Mazo. Es de donde robas las cartas. \xA1Si te quedas sin cartas
+        en el mazo se habr\xE1 hecho de d\xEDa y perder\xE1s la partida!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/DiscardPile
+      TermType: 0
+      Description: 
+      Languages:
+      - This is the Discard Pile. It's where you discard the cards you don't want
+        to play.
+      - Esta es la Pila de Descartes. Es donde descartas las cartas que no quieres
+        jugar.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/Draw
+      TermType: 0
+      Description: 
+      Languages:
+      - Fantastic! Cards will be drawn automatically.
+      - "\xA1Fantabuloso! Las cartas se robar\xE1n autom\xE1ticamente."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/EndTutorial
+      TermType: 0
+      Description: 
+      Languages:
+      - 'This is the basic thing you need to know to start playing.
+
+        You
+        will have to discover the rest!'
+      - "Hasta aqu\xED lo b\xE1sico que necesitas saber para empezar a jugar.\n\xA1El
+        resto deber\xE1s descubrirlo t\xFA!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/FirstDraw
+      TermType: 0
+      Description: 
+      Languages:
+      - "This is your hand, it will always consist of 5 cards.\n\nOn each turn you
+        must play or discard cards, your hand will automatically fill up until you
+        have five cards.\n\nThere are three different types of cards in the game:\n\u2022
+        Action    \u2022 Jam-Bro    \u2022 Busted"
+      - "Esta es tu mano, constar\xE1 siempre de 5 cartas.\n\nEn cada turno debes
+        jugar o descartar cartas, tu mano se ir\xE1 completando hasta tener cinco
+        cartas autom\xE1ticamente.\n\nHay tres tipos de cartas diferentes en el juego:\n\u2022
+        Acci\xF3n    \u2022 Merme-Colega    \u2022 Pillada"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/FirstGoalCompleted
+      TermType: 0
+      Description: 
+      Languages:
+      - 'You''ve found a Jam-Bro!
+
+        The color of the Jam-Bro will always match
+        that of the last three Actions that you have added to the List.
+
+
+        When
+        you find a Jam-Bro, the deck is shuffled.'
+      - "\xA1Has encontrado un Merme-Colega!\nEl color del Merme-Colega siempre coincidir\xE1
+        con el de las tres \xFAltimas Acciones que has a\xF1adido a la Lista.\n\nCuando
+        encuentras un Merme-Colega, el mazo se baraja."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/Goal
+      TermType: 0
+      Description: 
+      Languages:
+      - "There are two ways to find a Jam-Bro:\n\u2022 Place 3 consecutive cards
+        of the same color on the List.\n\u2022 Have a <style=TrickIcon> Trick card
+        in your hand of the corresponding color when you draw a Merme-Colleague.\n\nYou
+        now have 3 cards of the same color in your hand. Start by doing a <style=\"Kitchen\">
+        <style=\"PrankIcon\"> </style> Kitchen Prank</style> ."
+      - "Hay dos maneras de encontrar a un Merme-Colega:\n\u2022 Colocar 3 cartas
+        consecutivas del mismo color en la Lista.\n\u2022 Tener una carta de <style=TrickIcon>
+        Truco en la mano del color correspondiente cuando saques un Merme-Colega.\n\nAhora
+        tienes 3 cartas del mismo color en tu mano. Empieza haciendo una <style=\"Kitchen\"><style=\"PrankIcon\"></style>
+        Travesura en la Cocina</style>."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/GoalArea
+      TermType: 0
+      Description: 
+      Languages:
+      - These are the 8 Jam-Bros. Find them all before the night ends to win the
+        game!
+      - "Estos son los 8 Merme-Colegas. \xA1Encu\xE9ntralos a todos antes de que
+        acabe la noche para ganar la partida!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/GoalCard
+      TermType: 0
+      Description: 
+      Languages:
+      - 'When you draw a Jam-Bro card two things can happen: if you have a <style="TrickIcon">
+        Trick of the same color as the Jam-Bro you just drew, you can discard it
+        and open the door!
+
+
+        If you do not have a <style="TrickIcon"> Trick
+        card of the same color, the Jam-Bro will go through the Magic Portal.'
+      - "Cuando sacas una carta de Merme-Colega pueden pasar dos cosas: si tienes
+        un <style=\"TrickIcon\"> Truco del mismo color que la Merme-Colega que acabas
+        de sacar, \xA1puedes descartarla y abrir la puerta!\n\nSi no tienes nunguna
+        carta de <style=\"TrickIcon\"> Truco del mismo color, el Merme-Colega atravesar\xE1
+        el Portal M\xE1gico."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/GoalShuffle
+      TermType: 0
+      Description: 
+      Languages:
+      - 'There are two Jam-Bros of each color.
+
+        If you have already found
+        both of one color, the only effect of adding 3 consecutive Actions to the
+        List will be to shuffle the deck.
+
+
+        Keep looking for Jam-Bros!'
+      - "Hay dos Merme-Colegas de cada color.\nSi ya has encontrado a los dos de
+        un color, el \xFAnico efecto de a\xF1adir 3 Acciones consecutivas a la Lista
+        ser\xE1 barajar el mazo.\n\n\xA1Sigue buscando Merme-Colegas!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/LastAction
+      TermType: 0
+      Description: 
+      Languages:
+      - You only need one Action to find a Jam-Bro in the <style="Kitchen"> Kitchen</style>
+        .
+      - "Solo te falta una Acci\xF3n para encontrar a un Merme-Colega en la <style=\"Kitchen\">Cocina</style>."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/MagicalPortal
+      TermType: 0
+      Description: 
+      Languages:
+      - 'The Magic Portal allows you to temporarily send letters to the North Pole.
+
+        At
+        the end of the turn they will be returned to the Deck.'
+      - "El Portal M\xE1gico permite enviar cartas de forma temporal al Polo Norte.\nCuando
+        tu mano est\xE1 completa de nuevo, todas las cartas del Portal M\xE1gico
+        se barajan con el mazo."
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/SecondGoalCompleted
+      TermType: 0
+      Description: 
+      Languages:
+      - 'Yipi kai yeei! Look for another Jam-Bro in the <style=LivingRoom> Living
+        Room (green)</style> '
+      - "\xA1Yipi kai yeei! Busca otro Merme-Colega en el <style=LivingRoom>Sal\xF3n
+        (verde)</style>"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/StartGame
+      TermType: 0
+      Description: 
+      Languages:
+      - 'You are an elf on the shelf in a child''s house.
+
+        Your goal: find
+        the 8 Jam-Bros of Mantecao!'
+      - "Eres un elfo de estanter\xEDa en la casa de un ni\xF1o.\nTu objetivo: \xA1encontrar
+        las 8 Merme-Colegas de Mantecao!"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Tutorial/WrongSelection
+      TermType: 0
+      Description: 
+      Languages:
+      - If you try to do a <style="PrankIcon"> Prank you won't be able to do both
+        <style="GoodieIcon"> Goodies in a row.
+      - "Si intentas hacer una <style=\"PrankIcon\"> Travesura no podr\xE1s hacer
+        los dos <style=\"GoodieIcon\"> Favores seguidos."
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -129,7 +390,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycby7Z1NeRJuviHmJ8k9pIw8KB0DfYgfDkoxOqMyCitRaRXHUZgdmROB2vHxHblgK0IQaEA/exec
     Google_SpreadsheetKey: 1FsQnTe9zTeUWvMgoD_2Qqc_X8iPSjDwWMEr6exWmYSc
     Google_SpreadsheetName: I2Loc Elf on the Shelf Localization
-    Google_LastUpdatedVersion: 
+    Google_LastUpdatedVersion: 1735278889171
     Google_Password: change_this
     GoogleUpdateFrequency: 1
     GoogleInEditorCheckFrequency: 1

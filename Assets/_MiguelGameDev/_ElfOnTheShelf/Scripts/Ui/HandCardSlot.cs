@@ -37,7 +37,7 @@ namespace MiguelGameDev.ElfOnTheShelf
             GameUi.Instance.OnSelectCard -= OnSelectCard;
             RemoveCard();
         }
-
+        
         public void PlayHighlight()
         {
             _currentCardUi?.PlayHighlight();
@@ -46,6 +46,16 @@ namespace MiguelGameDev.ElfOnTheShelf
         public void StopHighlight()
         {
             _currentCardUi?.StopHighlight();
+        }
+
+        public void EnableInteraction()
+        {
+            _currentCardUi?.EnableInteraction();
+        }
+        
+        public void DisableInteraction()
+        {
+            _currentCardUi?.DisableInteraction();
         }
 
         public void EnableCardSelection()

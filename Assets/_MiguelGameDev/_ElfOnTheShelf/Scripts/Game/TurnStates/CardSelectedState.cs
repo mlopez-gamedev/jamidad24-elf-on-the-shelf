@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using MiguelGameDev.Generic.Event;
 using UnityEngine;
 
 namespace MiguelGameDev.ElfOnTheShelf
@@ -16,15 +17,15 @@ namespace MiguelGameDev.ElfOnTheShelf
             bool canPlaySelectedCard = _game.Player.CanPlayAction((ActionCard)_gameUi.SelectedActionCardUi.Card);
             
             _gameUi.SetEnableCardSelection(false);
-            _gameUi.SetEnableDeck(false);
-            _gameUi.SetEnableGoals(false);
             
             _gameUi.SetEnableDropOnRunPanel(canPlaySelectedCard);
             _gameUi.SetEnableDropOnDiscardPilePanel(true);
-
+            
             _gameUi.OnCancelCardSelection += OnCancelCardSelection;
             _gameUi.OnPlayerPlayCard += OnPlayerPlayCard;
             _gameUi.OnPlayerDiscardCard += OnPlayerDiscardCard;
+            
+            EventDispatcherService.Instance.Dispatch(new CardSelectedSignal(_gameUi.SelectedActionCardUi));
         }
 
         private void OnPlayerPlayCard(ActionCardUi cardUi)
@@ -60,6 +61,7 @@ namespace MiguelGameDev.ElfOnTheShelf
         private async void ShuffleAndEndTurn()
         {
             _game.Player.ShuffleDeck();
+            await AsyncEventDispatcherService.Instance.Dispatch(new ShuffleDeckSignal());
             await _gameUi.ShuffleDeck();
             ChangeState(ETurnState.DrawCards);
         } 
